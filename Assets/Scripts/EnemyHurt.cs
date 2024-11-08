@@ -9,6 +9,7 @@ public class EnemyHurt : MonoBehaviour
 
     int currentHealth;
     public int maxHealth;
+    public float timeTillCorpseCleanup;
 
     private Rigidbody[] _ragdollRigidbodies;
 
@@ -77,14 +78,17 @@ public class EnemyHurt : MonoBehaviour
 
     void Death()
     {
-        // Death function
-        // TEMPORARY: Destroy Object
-
         EnableRagdoll();
+        Invoke(nameof(Cleanup), timeTillCorpseCleanup);
         
         GetComponentInChildren<ParticleSystem>().Play();
         ParticleSystem.EmissionModule emission = GetComponentInChildren<ParticleSystem>().emission;
         emission.enabled = true;
+    }
+
+    void Cleanup()
+    {
+        Destroy(gameObject);
     }
 }
 

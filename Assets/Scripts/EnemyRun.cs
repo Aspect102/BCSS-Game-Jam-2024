@@ -31,6 +31,10 @@ public class EnemyRun : MonoBehaviour
 
 
     private void Update() {
+        ChasePlayer();
+
+        transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
+        
         // playerInRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
         float dist = Vector3.Distance(player.position, transform.position);
         if (dist <= attackRange) // playerInRange
@@ -41,7 +45,6 @@ public class EnemyRun : MonoBehaviour
         else
         {
             ChangeAnimationState(RUN);
-            ChasePlayer();
         }
     }
 
@@ -55,8 +58,6 @@ public class EnemyRun : MonoBehaviour
     private void AttackPlayer()
     {
         // ATTACK HERE
-
-        transform.LookAt(player);
 
         if (!alreadyAttacked)
         {

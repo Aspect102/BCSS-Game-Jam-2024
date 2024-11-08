@@ -36,7 +36,7 @@ public class PlayerCombat : MonoBehaviour
     void Update()
     {
         // Repeat Inputs
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if(Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse0))
         { 
             Attack(); 
         }
