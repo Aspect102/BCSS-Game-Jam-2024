@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class RoundManager : MonoBehaviour
 {
-    public float roundLength = 20;  //seconds
-    public int numberOfRounds = 3;
+    public float roundLength;  //seconds
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI displayText;
     public float displayTextFadeOut = 0.5f;
 
+    [SerializeField] private float timeRemaining; //debugging purposes etc
     private SpawnManager spawnManager;
     private int currentRound = 1; // we will be counting from 1 for rounds
-    private float timeRemaining;
     private int minutes;
     private int seconds;
 
@@ -21,7 +20,7 @@ public class RoundManager : MonoBehaviour
         timeRemaining = roundLength;
         spawnManager = GetComponent<SpawnManager>();
         spawnManager.haltSpawning = false;
-        StartCoroutine(RoundDisplay("1", displayTextFadeOut));
+        StartCoroutine(RoundDisplay(currentRound.ToString(), displayTextFadeOut));
     }
 
     public IEnumerator RoundDisplay(string text, float time)
@@ -53,7 +52,9 @@ public class RoundManager : MonoBehaviour
 
     void RoundRestart()
     {
+        timeRemaining = roundLength;
         spawnManager.haltSpawning = true;
+        currentRound++;
 
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in enemies)
@@ -61,8 +62,6 @@ public class RoundManager : MonoBehaviour
             Destroy(enemy);
         }
 
-        RoundDisplay("1", 3);
-
-        timeRemaining = roundLength;
+        RoundDisplay(currentRound.ToString(), displayTextFadeOut);
     }
 }
