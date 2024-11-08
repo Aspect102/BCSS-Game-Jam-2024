@@ -1,4 +1,6 @@
 using System.Collections;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -6,6 +8,7 @@ public class SpawnManager : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public GameObject[] mapBorders = new GameObject[4];
+    public Material[] materials = new Material[4];  
     public int MinSpawnDelay = 0; // measured in seconds
     public int MaxSpawnDelay = 5;
     public int canSpawnDetectionRadius = 5;
@@ -25,6 +28,37 @@ public class SpawnManager : MonoBehaviour
         zRange = (Mathf.Min(mapBorders[0].transform.position.z, mapBorders[1].transform.position.z, mapBorders[2].transform.position.z, mapBorders[3].transform.position.z),
             Mathf.Max(mapBorders[0].transform.position.z, mapBorders[1].transform.position.z, mapBorders[2].transform.position.z, mapBorders[3].transform.position.z));
     }
+    
+    void SetRandomPrefabColors(Material[] materials, GameObject prefab)
+    {
+        #region Assign new random material
+
+        Material randomMaterial = materials[Random.Range(0, 3)];
+        prefab.GetComponentInChildren<SkinnedMeshRenderer>().material = randomMaterial;
+        #endregion
+
+        #region Set SplatterController
+
+        Gradient gradient = new Gradient();
+        var colors = new GradientColorKey[2];
+        colors[0] = new GradientColorKey(randomMaterial.color, 0.0f);
+        colors[1] = new GradientColorKey(randomMaterial.GetColor("_SpecColor"), 1.0f);
+
+        var alphas = new GradientAlphaKey[2];
+        alphas[0] = new GradientAlphaKey(1.0f, 1.0f);
+        alphas[1] = new GradientAlphaKey(1.0f, 1.0f);
+
+        gradient.SetKeys(colors, alphas);
+        prefab.GetComponentInChildren<SplatterController>().particleGradient = gradient;
+        #endregion
+
+        #region Set Particle System
+
+        ParticleSystem.MainModule startColor = prefab.GetComponentInChildren<ParticleSystem>().main;
+        startColor.startColor = gradient;
+
+        #endregion
+    }
 
     public IEnumerator StartSpawning()
     {
@@ -36,7 +70,8 @@ public class SpawnManager : MonoBehaviour
 
             if (Physics.CheckSphere(spawnVector, canSpawnDetectionRadius))
             {
-                Instantiate(enemyPrefab, spawnVector, Quaternion.identity);
+                GameObject newEnemy = Instantiate(enemyPrefab, spawnVector, Quaternion.identity);
+                SetRandomPrefabColors(materials, newEnemy);
             };
 
             yield return new WaitForSeconds(Random.Range(MinSpawnDelay, MaxSpawnDelay));
