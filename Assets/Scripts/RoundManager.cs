@@ -8,7 +8,7 @@ public class RoundManager : MonoBehaviour
     public int numberOfRounds = 3;
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI displayText;
-    public float displayTextFadeOut = 0.5f;
+    public float displayTextFadeOut = 0.25f;
 
     private SpawnManager spawnManager;
     private int currentRound = 1; // we will be counting from 1 for rounds
