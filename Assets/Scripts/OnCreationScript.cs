@@ -8,7 +8,8 @@ public class OnCreationScript : MonoBehaviour
     public GameObject player;
     public ParticleDecalPool splatterDecalParticles;
 
-    void Awake() {
+    void Awake() 
+    {
         cam = FindObjectOfType<Camera>();
         player = GameObject.FindWithTag("Player");
         splatterDecalParticles = GameObject.FindWithTag("SplatterDecalParticles").GetComponent<ParticleDecalPool>();

@@ -26,7 +26,7 @@ public class EnemyHurt : MonoBehaviour
 
         // taken from OnCreationScript because prefabs cant reference the camera on their own
         cam = transform.GetComponent<OnCreationScript>().cam;
-
+        
         _ragdollRigidbodies = transform.Find("Hips").GetComponentsInChildren<Rigidbody>();
         DisableRagdoll();
     }
