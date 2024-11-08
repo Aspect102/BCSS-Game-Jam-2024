@@ -18,6 +18,7 @@ public class EnemyRun : MonoBehaviour
     Animator animator;
     public const string RUN = "stickman run";
     public const string PUNCH = "stickman punch";
+    public const string IDLE = "stickman idle";
     string currentAnimationState;
 
 
@@ -30,28 +31,48 @@ public class EnemyRun : MonoBehaviour
     }
 
 
-    private void Update() {
-        ChasePlayer();
+    private void Update() 
+    {
+        NavMeshPath path = new NavMeshPath();
+        agent.CalculatePath(player.position, path);
+
+        ChasePlayer(path);
 
         transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
         
         // playerInRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
         float dist = Vector3.Distance(player.position, transform.position);
-        if (dist <= attackRange) // playerInRange
+
+        if (path.status != NavMeshPathStatus.PathPartial)   // check if player is reachable
         {
-            ChangeAnimationState(PUNCH);
-            AttackPlayer();
+            if (dist <= attackRange)
+            {
+                ChangeAnimationState(PUNCH);
+                AttackPlayer();
+            }
+            else
+            {
+                ChangeAnimationState(RUN);
+            }
+            
         }
         else
         {
-            ChangeAnimationState(RUN);
+            ChangeAnimationState(IDLE);
         }
     }
 
 
-    private void ChasePlayer()
+    private void ChasePlayer(NavMeshPath path)
     {
-        agent.SetDestination(player.position);
+        if (path.status != NavMeshPathStatus.PathPartial)   // check if player is reachable
+        {
+            agent.SetDestination(player.position);
+        }
+        else
+        {
+            agent.SetDestination(transform.position);   // stay at current position
+        }
     }
 
 
