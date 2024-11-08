@@ -7,6 +7,7 @@ public class RoundManager : MonoBehaviour
     public float roundLength;  //seconds
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI displayText;
+    public float fadeDelay;
     public float displayTextFadeOut = 0.25f;
 
     [SerializeField] private float timeRemaining; //debugging purposes etc
@@ -19,16 +20,21 @@ public class RoundManager : MonoBehaviour
     {
         timeRemaining = roundLength;
         spawnManager = GetComponent<SpawnManager>();
-        StartCoroutine(RoundDisplay(currentRound.ToString(), displayTextFadeOut));
+    
         StartCoroutine(spawnManager.StartSpawning()); // must change when UI is here (button to activate should be easy enough)
+
+        displayText.text = currentRound.ToString(); 
+        displayText.enabled = true;
+        Invoke(nameof(startRoundDisplayCoroutine), fadeDelay); // show round at full opacity for some time before fading
     }
 
+    void startRoundDisplayCoroutine()
+    {
+        StartCoroutine(RoundDisplay(currentRound.ToString(), displayTextFadeOut));
+    }
+    
     public IEnumerator RoundDisplay(string text, float time)
     {
-        displayText.text = text;
-        displayText.enabled = true;
-
-        displayText.color = new Color(displayText.color.r, displayText.color.g, displayText.color.b, 1);
         while (displayText.color.a > 0.0f)
         {
             displayText.color = new Color(displayText.color.r, displayText.color.g, displayText.color.b, displayText.color.a - (Time.deltaTime / time));
@@ -62,6 +68,9 @@ public class RoundManager : MonoBehaviour
             Destroy(enemy);
         }
 
-        StartCoroutine(RoundDisplay(currentRound.ToString(), displayTextFadeOut));
+        displayText.text = currentRound.ToString();
+        displayText.enabled = true;
+        displayText.color = new Color(displayText.color.r, displayText.color.g, displayText.color.b, 1); 
+        Invoke(nameof(startRoundDisplayCoroutine), fadeDelay); // show round at full opacity for some time before fading
     }
 }
