@@ -19,8 +19,8 @@ public class RoundManager : MonoBehaviour
     {
         timeRemaining = roundLength;
         spawnManager = GetComponent<SpawnManager>();
-        spawnManager.haltSpawning = false;
         StartCoroutine(RoundDisplay(currentRound.ToString(), displayTextFadeOut));
+        StartCoroutine(spawnManager.StartSpawning()); // must change when UI is here (button to activate should be easy enough)
     }
 
     public IEnumerator RoundDisplay(string text, float time)
@@ -52,8 +52,8 @@ public class RoundManager : MonoBehaviour
 
     void RoundRestart()
     {
+        StopCoroutine(spawnManager.StartSpawning());
         timeRemaining = roundLength;
-        spawnManager.haltSpawning = true;
         currentRound++;
 
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -62,6 +62,6 @@ public class RoundManager : MonoBehaviour
             Destroy(enemy);
         }
 
-        RoundDisplay(currentRound.ToString(), displayTextFadeOut);
+        StartCoroutine(RoundDisplay(currentRound.ToString(), displayTextFadeOut));
     }
 }

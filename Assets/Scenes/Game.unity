@@ -9209,7 +9209,6 @@ MonoBehaviour:
   MinSpawnDelay: 0
   MaxSpawnDelay: 5
   canSpawnDetectionRadius: 5
-  haltSpawning: 0
 --- !u!114 &1167996221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9222,7 +9221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c2891fc8b90ccc4cb140be49f3fb1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roundLength: 200
+  roundLength: 10
   timerText: {fileID: 544743425}
   displayText: {fileID: 1968778404}
   displayTextFadeOut: 0.5
