@@ -957,6 +957,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
   maxHealth: 1
+  knockbackForce: 125
   timeTillCorpseCleanup: 3
 --- !u!195 &8527412537644439976
 NavMeshAgent:

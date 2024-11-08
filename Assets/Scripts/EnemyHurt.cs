@@ -9,6 +9,7 @@ public class EnemyHurt : MonoBehaviour
 
     int currentHealth;
     public int maxHealth;
+    public float knockbackForce;
     public float timeTillCorpseCleanup;
 
     private Rigidbody[] _ragdollRigidbodies;
@@ -58,10 +59,8 @@ public class EnemyHurt : MonoBehaviour
 
         // knockback
         Rigidbody hipRB = transform.Find("Hips").GetComponent<Rigidbody>();
-        var flatForward = new Vector3(cam.transform.forward.x, 0.2f, cam.transform.forward.z).normalized;
-        hipRB.AddForce(flatForward * 80f, ForceMode.VelocityChange);
-
-        
+        var flatForward = new Vector3(cam.transform.forward.x, 0.4f, cam.transform.forward.z).normalized;
+        hipRB.AddForce(flatForward * knockbackForce, ForceMode.VelocityChange);
     }
 
 
