@@ -1,17 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class RoundManager : MonoBehaviour
 {
+    public float roundLength = 20;  //seconds
     public int numberOfRounds = 3;
     public TextMeshProUGUI timerText;
+    public TextMeshProUGUI displayText;
+    public float displayTextFadeOut = 0.5f;
 
+    private SpawnManager spawnManager;
     private int currentRound = 1; // we will be counting from 1 for rounds
-    private SpawnManager spawnmanager;
-
-    public float roundLength = 20;  //seconds
     private float timeRemaining;
     private int minutes;
     private int seconds;
@@ -19,10 +19,24 @@ public class RoundManager : MonoBehaviour
     void Start()
     {
         timeRemaining = roundLength;
-        SpawnManager spawnManager = GetComponent<SpawnManager>();
+        spawnManager = GetComponent<SpawnManager>();
         spawnManager.haltSpawning = false;
+        StartCoroutine(RoundDisplay("1", displayTextFadeOut));
     }
 
+    public IEnumerator RoundDisplay(string text, float time)
+    {
+        displayText.text = text;
+        displayText.enabled = true;
+
+        displayText.color = new Color(displayText.color.r, displayText.color.g, displayText.color.b, 1);
+        while (displayText.color.a > 0.0f)
+        {
+            displayText.color = new Color(displayText.color.r, displayText.color.g, displayText.color.b, displayText.color.a - (Time.deltaTime / time));
+            yield return null;
+        }
+        displayText.enabled = false;
+    }
 
     void Update()
     {
@@ -35,14 +49,20 @@ public class RoundManager : MonoBehaviour
         {
             RoundRestart();
         }
-        else if (currentRound <= 2)
-        {
-
-        }
     }
 
     void RoundRestart()
     {
+        spawnManager.haltSpawning = true;
 
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+
+        RoundDisplay("1", 3);
+
+        timeRemaining = roundLength;
     }
 }
