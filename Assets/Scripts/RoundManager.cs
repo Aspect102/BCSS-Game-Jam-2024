@@ -7,7 +7,7 @@ public class RoundManager : MonoBehaviour
     public float roundLength;  //seconds
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI displayText;
-    public float displayTextFadeOut = 0.5f;
+    public float displayTextFadeOut = 0.25f;
 
     [SerializeField] private float timeRemaining; //debugging purposes etc
     private SpawnManager spawnManager;
