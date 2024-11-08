@@ -9206,6 +9206,11 @@ MonoBehaviour:
   - {fileID: 1269142678}
   - {fileID: 1808381674}
   - {fileID: 1301311593}
+  materials:
+  - {fileID: 2100000, guid: d7c8e9c2f2a1bf246afcf2f13bf9ce14, type: 2}
+  - {fileID: 2100000, guid: ece734de29abbfa42b94331cfa8ba0d1, type: 2}
+  - {fileID: 2100000, guid: 310ea798e8a02a64299c9c69a55b5ce5, type: 2}
+  - {fileID: 2100000, guid: 2a53297ea68ea87468fab89435b0dfea, type: 2}
   MinSpawnDelay: 0
   MaxSpawnDelay: 5
   canSpawnDetectionRadius: 5
@@ -9226,6 +9231,7 @@ MonoBehaviour:
   displayText: {fileID: 1968778404}
   displayTextFadeOut: 0.5
   timeRemaining: 0
+  enemyCount: 0
 --- !u!4 &1167996222
 Transform:
   m_ObjectHideFlags: 0

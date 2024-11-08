@@ -15,8 +15,12 @@ public class RoundManager : MonoBehaviour
     private int minutes;
     private int seconds;
 
+    public int enemyCount;
+    private int enemiesRemaining;
+
     void Start()
     {
+        enemiesRemaining = enemyCount;
         timeRemaining = roundLength;
         spawnManager = GetComponent<SpawnManager>();
         StartCoroutine(RoundDisplay(currentRound.ToString(), displayTextFadeOut));
