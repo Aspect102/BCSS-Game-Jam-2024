@@ -11,17 +11,56 @@ public class MainMenuController : MonoBehaviour
     public Button PlayButton;
     public Button OptionsButton;
     public Button QuitButton;
+
+    public GameObject optionsPanel;
+    bool showingOptions = false;
+
+
     void Awake()
     {
         PlayButton.onClick.AddListener(PlayButtonClicked);
-        //OptionsButton.onClick.AddListener();
-        //QuitButton.onClick.AddListener();
+        OptionsButton.onClick.AddListener(OptionsButtonClicked);
+        QuitButton.onClick.AddListener(QuitCoroutineStarter);
     }
+
 
     void PlayButtonClicked()
     { 
         SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single); //IMPORTANT NOTE: THIS MEANS ONLY ONE SCENE AT A TIME!
     }
+
+
+    void OptionsButtonClicked()
+    {
+        if (showingOptions)
+        {
+            optionsPanel.SetActive(false);
+            showingOptions = false;
+        }
+        else
+        {
+            optionsPanel.SetActive(true);
+            showingOptions = true;
+        }
+        
+    }
+
+
+    void QuitCoroutineStarter()
+    {
+        StartCoroutine(QuitCoroutine());
+    }
+
+
+    IEnumerator QuitCoroutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Application.Quit();
+        // Application.Quit() does not do anything while in playing in the editor, only works in a build
+        // Line below simulates quitting the game
+        // UnityEditor.EditorApplication.isPlaying = false;
+    }
+
 
     // Update is called once per frame
     void Update()

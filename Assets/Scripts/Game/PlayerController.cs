@@ -9,8 +9,10 @@ using UnityEngine.EventSystems;
 public class PlayerController : MonoBehaviour
 {
     // cam controls
-    public float sensX = 800f;
+    public float sensX = 800f; // fixed value for sensitivity
     public float sensY = 800f;
+    float activeSensX; // value for sensitivity that changes based on sensitivity option slider
+    float activeSensY;
 
     public Camera playerCam;
 
@@ -51,8 +53,13 @@ public class PlayerController : MonoBehaviour
 
         characterController = GetComponent<CharacterController>();
 
+        activeSensX = sensX;
+        activeSensY = sensY;
+
         dashCooldown = maxDashCooldown; // time to recharge 1 dash charge (decreases over time, restores 1 charge when less than 0 and dashCharges less than 2)
         dashCharges = maxDashCharges; // amount of consecutive dashes available
+
+        setOptionMultipliers();
     }
 
     // Update is called once per frame
@@ -69,8 +76,8 @@ public class PlayerController : MonoBehaviour
 
 
         #region Rotation
-        float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * sensX;
-        float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * sensY;
+        float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * activeSensX;
+        float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * activeSensY;
 
         yRotation += mouseX;
         xRotation -= mouseY;
@@ -135,6 +142,14 @@ public class PlayerController : MonoBehaviour
         #endregion
 
     }
+
+
+    public void setOptionMultipliers()
+    {
+        activeSensX = sensX * OptionsManager.sensMultiplier;
+        activeSensY = sensY * OptionsManager.sensMultiplier;
+    }
+
 
     #region Coroutines
     // dash coroutine

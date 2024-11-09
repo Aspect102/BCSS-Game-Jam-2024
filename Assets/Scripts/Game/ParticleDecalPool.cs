@@ -8,40 +8,58 @@ public class ParticleDecalPool : MonoBehaviour
     public float decalSizeMin = 0.5f;
     public float decalSizeMax = 1.5f;
 
-    private ParticleSystem decalParticleSystem;
+    private ParticleSystem decalParticleSystem; // SplatterDecalParticles game object
     private int particleDecalDataIndex;
-    private ParticleDecalData[] particleData;
-    private ParticleSystem.Particle[] particles;
+    private ParticleDecalData[] particleData; // create a list of splatter particle details, to be displayed
+    private ParticleSystem.Particle[] particles; // create a list of particles, Particle is a class of a particle system
 
     // Start is called before the first frame update
     void Start()
     {
-        decalParticleSystem = GetComponent<ParticleSystem> ();
+        decalParticleSystem = GetComponent<ParticleSystem>();
 
         particles = new ParticleSystem.Particle[maxDecals];
         particleData = new ParticleDecalData[maxDecals];
-        for (int i = 0; i < maxDecals; i++)
+        for (int i = 0; i < maxDecals; i++) // initalise list of particle decal data for each particle
         {
-            particleData[i] = new ParticleDecalData ();
+            particleData[i] = new ParticleDecalData();
         }
     }
 
+
+    void LateUpdate() 
+    {
+        // set each splatter decals' data
+        for (int i = 0; i < particleData.Length; i++)
+        {
+            particles[i].position = particleData[i].position;
+            particles[i].rotation3D = particleData[i].rotation;
+            particles[i].startSize = particleData[i].size;
+            particles[i].startColor = particleData[i].color;
+        }
+
+        decalParticleSystem.SetParticles(particles, particles.Length); // SetParticles is a class of a particle system    
+    }
+
+
+    // Particle hits ground and calls this function
     public void ParticleHit(ParticleCollisionEvent particleCollisionEvent, Gradient colorGradient)
     {
         SetParticleData(particleCollisionEvent, colorGradient);
-        DisplayParticles();
+        // DisplayParticles();
     }
+
 
     void SetParticleData(ParticleCollisionEvent particleCollisionEvent, Gradient colorGradient)
     {
-        if (particleDecalDataIndex >= maxDecals)
+        if (particleDecalDataIndex >= maxDecals) // write over oldest decals once max is reached
         {
             particleDecalDataIndex = 0;
         }
 
         // record collision position, rotation, size and colour
         particleData[particleDecalDataIndex].position = particleCollisionEvent.intersection;
-        particleData[particleDecalDataIndex].position.y += Random.Range(0f, 0.1f); 
+        // particleData[particleDecalDataIndex].position.y += Random.Range(0f, 0.1f); 
 
 
         if (particleCollisionEvent.normal.x > Mathf.Epsilon || particleCollisionEvent.normal.y > Mathf.Epsilon || particleCollisionEvent.normal.z > Mathf.Epsilon)
@@ -57,19 +75,20 @@ public class ParticleDecalPool : MonoBehaviour
         particleData[particleDecalDataIndex].color = colorGradient.Evaluate(Random.Range(0f, 1f));
 
 
-        particleDecalDataIndex++;
+        particleDecalDataIndex++; // next index to save details for next splatter particle
     }
 
-    void DisplayParticles()
-    {
-        for (int i = 0; i < particleData.Length; i++)
-        {
-            particles[i].position = particleData[i].position;
-            particles[i].rotation3D = particleData[i].rotation;
-            particles[i].startSize = particleData[i].size;
-            particles[i].startColor = particleData[i].color;
-        }
+    // void DisplayParticles()
+    // {
+    //     // set each splatter decals' data
+    //     for (int i = 0; i < particleData.Length; i++)
+    //     {
+    //         particles[i].position = particleData[i].position;
+    //         particles[i].rotation3D = particleData[i].rotation;
+    //         particles[i].startSize = particleData[i].size;
+    //         particles[i].startColor = particleData[i].color;
+    //     }
 
-        decalParticleSystem.SetParticles(particles, particles.Length);
-    }
+    //     decalParticleSystem.SetParticles(particles, particles.Length); // SetParticles is a class of a particle system
+    // }
 }
