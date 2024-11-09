@@ -282,9 +282,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1687277907}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 2
   m_WholeNumbers: 0
-  m_Value: 0.5
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4417,9 +4417,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 974751905}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 2
   m_WholeNumbers: 0
-  m_Value: 0.5
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -11471,6 +11471,9 @@ MonoBehaviour:
   staminaDotsArray: []
   pauseMenuUI: {fileID: 585235679}
   mainMenuButton: {fileID: 1703287692}
+  soundSlider: {fileID: 820905793}
+  musicSlider: {fileID: 23726739}
+  sensSlider: {fileID: 1986450468}
 --- !u!1 &1243204521
 GameObject:
   m_ObjectHideFlags: 0
@@ -16913,9 +16916,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1568184375}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 2
   m_WholeNumbers: 0
-  m_Value: 0.5
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class PlayerUIManager : MonoBehaviour
 {
+    // IN MAIN MENU SCENE, OPTIONS SLIDERS ARE MANAGED BY OptionsManager SCRIPT
+
     public GameObject player;
     PlayerController playerController;
 
@@ -21,6 +23,18 @@ public class PlayerUIManager : MonoBehaviour
     public GameObject pauseMenuUI;
     public Button mainMenuButton;
 
+    public Slider soundSlider;
+    public Slider musicSlider;
+    public Slider sensSlider;
+    // soundMultiplier, musicMultiplier and sensMultiplier are static variables set in OptionsManager script in the main menu scene
+
+
+    void Awake() {
+        // soundSlider.onValueChanged.AddListener();
+        // musicSlider.onValueChanged.AddListener();
+        sensSlider.onValueChanged.AddListener(SetSens);
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +43,8 @@ public class PlayerUIManager : MonoBehaviour
 
         playerController = player.GetComponent<PlayerController>();
         maxDashCharges = playerController.maxDashCharges;
+
+        sensSlider.value = OptionsManager.sensMultiplier; // must be below setting playerController for some reason
 
         InitialiseUI();
     }
@@ -80,6 +96,14 @@ public class PlayerUIManager : MonoBehaviour
                 Pause();
             }
         }
+
+    }
+
+
+    public void SetSens(float sens) // sens set in PlayerController script
+    {
+        OptionsManager.sensMultiplier = sens;
+        playerController.setOptionMultipliers();
 
     }
 
