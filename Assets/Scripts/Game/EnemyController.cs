@@ -1,16 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyRun : MonoBehaviour
 {
     public NavMeshAgent agent;
-    public Transform player;
+    public Transform playerTransform;
     public LayerMask groundLayer, playerLayer;
 
     public float attackSpeed; // time between attacks
-    bool alreadyAttacked;
+    public int attackDamage;
+    bool alreadyAttacked = false;
 
     public float attackRange;
     bool playerInRange;
@@ -24,37 +24,37 @@ public class EnemyRun : MonoBehaviour
 
     private void Awake()
     {
-        player = GameObject.FindWithTag("Player").transform;
+        playerTransform = GameObject.FindWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
 
         animator = GetComponentInChildren<Animator>();
     }
 
 
-    private void Update() 
+    private void Update()
     {
         NavMeshPath path = new NavMeshPath();
-        agent.CalculatePath(player.position, path);
+        agent.CalculatePath(playerTransform.position, path);
 
         ChasePlayer(path);
 
-        transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
-        
-        // playerInRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
-        float dist = Vector3.Distance(player.position, transform.position);
+        transform.LookAt(new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z));
 
-        if (path.status != NavMeshPathStatus.PathPartial)   // check if player is reachable
+        // playerInRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
+
+        float dist = Vector3.Distance(playerTransform.position, transform.position);
+
+        if (path.status != NavMeshPathStatus.PathPartial)   // check if playerTransform is reachable
         {
             if (dist <= attackRange)
             {
                 ChangeAnimationState(PUNCH);
-                AttackPlayer();
             }
             else
             {
                 ChangeAnimationState(RUN);
             }
-            
+
         }
         else
         {
@@ -65,9 +65,9 @@ public class EnemyRun : MonoBehaviour
 
     private void ChasePlayer(NavMeshPath path)
     {
-        if (path.status != NavMeshPathStatus.PathPartial)   // check if player is reachable
+        if (path.status != NavMeshPathStatus.PathPartial)   // check if playerTransform is reachable
         {
-            agent.SetDestination(player.position);
+            agent.SetDestination(playerTransform.position);
         }
         else
         {
@@ -75,36 +75,36 @@ public class EnemyRun : MonoBehaviour
         }
     }
 
-
-    private void AttackPlayer()
+    private IEnumerator AttackPlayer()
     {
-        // ATTACK HERE
-
-        if (!alreadyAttacked)
+        GameObject player = gameObject.GetComponent<OnCreationScript>().player;
+        PlayerController playercontroller = player.GetComponent<PlayerController>();
+        if (playercontroller.isGrounded)
         {
             alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), attackSpeed);
-        }
+            PlayerCombat playerCombat = player.GetComponent<PlayerCombat>();
+            playerCombat.TakeDamage(attackDamage);
+            yield return new WaitForSeconds(attackSpeed);
+            alreadyAttacked = false;
+        } 
     }
 
-    private void ResetAttack()
-    {
-        alreadyAttacked = false;
-    }
-
-
-    public void ChangeAnimationState(string newState) 
+    public void ChangeAnimationState(string newState)
     {
         // STOP THE SAME ANIMATION FROM INTERRUPTING WITH ITSELF //
-        if (currentAnimationState == newState) 
+        if (currentAnimationState == newState)
         {
             return;
         }
-        
+
         // PLAY THE ANIMATION //
 
         currentAnimationState = newState;
         animator.CrossFadeInFixedTime(currentAnimationState, 0.3f);
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
+        {
+            StartCoroutine(AttackPlayer());
+        }
     }
 
 

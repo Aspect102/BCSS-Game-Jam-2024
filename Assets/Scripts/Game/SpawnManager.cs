@@ -33,7 +33,7 @@ public class SpawnManager : MonoBehaviour
     {
         #region Assign new random material
 
-        Material randomMaterial = materials[Random.Range(0, 3)];
+        Material randomMaterial = materials[Random.Range(0, 4)];
         prefab.GetComponentInChildren<SkinnedMeshRenderer>().material = randomMaterial;
         #endregion
 

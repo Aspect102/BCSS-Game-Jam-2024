@@ -16,6 +16,6 @@ public class OnCreationScript : MonoBehaviour
     }
 
 //     void Start() {
-//         player = findg
+//         playerTransform = findg
 //     }
 }

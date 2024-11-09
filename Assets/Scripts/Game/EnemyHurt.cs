@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,20 +8,12 @@ public class EnemyHurt : MonoBehaviour
 {
     public Camera cam;
 
-    int currentHealth;
+    private int currentHealth;
     public int maxHealth;
     public float knockbackForce;
     public float timeTillCorpseCleanup;
 
     private Rigidbody[] _ragdollRigidbodies;
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
 
     void Awake()
     {
@@ -32,7 +25,6 @@ public class EnemyHurt : MonoBehaviour
         _ragdollRigidbodies = transform.Find("Hips").GetComponentsInChildren<Rigidbody>();
         DisableRagdoll();
     }
-
 
     private void DisableRagdoll()
     {
@@ -83,6 +75,17 @@ public class EnemyHurt : MonoBehaviour
         GetComponentInChildren<ParticleSystem>().Play();
         ParticleSystem.EmissionModule emission = GetComponentInChildren<ParticleSystem>().emission;
         emission.enabled = true;
+    }
+
+
+    public void test(GameObject other)
+    {
+        Debug.Log("Test");
+        if (other.CompareTag("Player"))
+        {
+            PlayerCombat playerCombat = other.GetComponent<PlayerCombat>();
+            playerCombat.TakeDamage(-10);
+        }
     }
 
     void Cleanup()

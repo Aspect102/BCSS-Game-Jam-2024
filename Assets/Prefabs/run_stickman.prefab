@@ -994,14 +994,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 8527412537644439976}
-  player: {fileID: 0}
+  playerTransform: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
-  attackSpeed: 0.5
+  attackSpeed: 2
+  attackDamage: 25
   attackRange: 4
 --- !u!114 &9012709312184310349
 MonoBehaviour:
@@ -1518,6 +1519,7 @@ GameObject:
   - component: {fileID: 3769456711527039323}
   - component: {fileID: 3902931476041040484}
   - component: {fileID: 9150382621209961694}
+  - component: {fileID: 8246088398721448164}
   m_Layer: 8
   m_Name: Particle System
   m_TagString: Untagged
@@ -5365,15 +5367,16 @@ ParticleSystem:
     collidesWithDynamic: 0
     interiorCollisions: 0
   TriggerModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 2
-    inside: 1
+    inside: 2
     outside: 0
     enter: 0
     exit: 0
     colliderQueryMode: 0
     radiusScale: 1
-    primitives: []
+    primitives:
+    - {fileID: 0}
   SubModule:
     serializedVersion: 2
     enabled: 0
@@ -6440,6 +6443,19 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+--- !u!114 &8246088398721448164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6691378474476230284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f32fae06901bb044bb3b28f4c4c53a0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleSystem: {fileID: 3769456711527039323}
 --- !u!1 &7208532059783897201
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ public class PlayerCombat : MonoBehaviour
 {
     public Camera cam;
 
+    public int playerHealth;
     public float attackDistance = 18f;
     public float attackDelay = 0.1f; // time between attack and sending out ray
     public float attackSpeed = 0.5f; // time between attacks
@@ -25,7 +26,6 @@ public class PlayerCombat : MonoBehaviour
     public const string SWING2 = "mop swing 2";
     string currentAnimationState;
 
-
     void Awake()
     { 
         animator = GetComponentInChildren<Animator>();
@@ -41,7 +41,21 @@ public class PlayerCombat : MonoBehaviour
             Attack(); 
         }
     }
+    public void TakeDamage(int amount)
+    {
+        var newHealth = playerHealth - amount;
+        playerHealth = Mathf.Clamp(newHealth, 0, 100);
 
+        if (playerHealth == 0)
+        {
+            Death();
+        }
+    }
+
+    public void Death()
+    {
+        gameObject.SetActive(false);
+    }
 
     public void Attack()
     {
@@ -70,7 +84,6 @@ public class PlayerCombat : MonoBehaviour
             attackCount = 0;
         }
     }
-
 
     void ResetAttack()
     {
@@ -118,7 +131,7 @@ public class PlayerCombat : MonoBehaviour
 
     // void SetAnimations()
     // {
-    //     // If player is not attacking
+    //     // If playerTransform is not attacking
     //     if(!attacking)
     //     {
     //         if(_PlayerVelocity.x == 0 &&_PlayerVelocity.z == 0)
