@@ -37,8 +37,15 @@ public class EnemyHurt : MonoBehaviour
     private void EnableRagdoll()
     {
         // deactivate pathfinding, animations and scripts
-        transform.GetComponent<NavMeshAgent>().enabled = false;
-        transform.GetComponent<EnemyRun>().enabled = false;
+        if (transform.TryGetComponent<NavMeshAgent>(out NavMeshAgent navMeshAgent))
+        {
+            navMeshAgent.enabled = false;
+        }
+
+        if (transform.TryGetComponent<RunEnemyController>(out RunEnemyController enemyRun))
+        {
+            enemyRun.enabled = false;
+        }
         transform.GetComponent<Animator>().enabled = false;
 
         // deactivate collider (body part colliders used to collide with capsule but now configured not to, kept this line just in case)
