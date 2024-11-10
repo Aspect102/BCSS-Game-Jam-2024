@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -24,6 +25,7 @@ public class RoundManager : MonoBehaviour
     private int constantC = 5;
     private int constantN = 20; // see desmos
 
+
     void Start()
     {
         RoundCountUpdate(out enemyRoundCount);
@@ -38,16 +40,19 @@ public class RoundManager : MonoBehaviour
         Invoke(nameof(startRoundDisplayCoroutine), fadeDelay); // show round at full opacity for some time before fading
     }
 
+
     void startRoundDisplayCoroutine()
     {
         StartCoroutine(RoundDisplay(currentRound.ToString(), displayTextFadeOut));
     }
 
+
     void RoundCountUpdate(out int enemyRoundCount)
     {
-        var x = (currentRound + 5) ^ 2;
-        enemyRoundCount = (int)Mathf.Round(1 / constantN * x + constantC - Mathf.Log(currentRound));
+        var x = Mathf.Pow(currentRound + 5, 2);
+        enemyRoundCount = (int)Mathf.Round((1.0f / constantN * x) + constantC - Mathf.Log(currentRound));
     }
+
 
     public IEnumerator RoundDisplay(string text, float time)
     {
@@ -58,6 +63,7 @@ public class RoundManager : MonoBehaviour
         }
         displayText.enabled = false;
     }
+
 
     void Update()
     {
@@ -71,6 +77,7 @@ public class RoundManager : MonoBehaviour
             RoundFail();
         }
     }
+
 
     public void RoundFail()
     {
@@ -103,11 +110,12 @@ public class RoundManager : MonoBehaviour
         StartCoroutine(EndGame());
     }
 
+
     private IEnumerator EndGame()
     {
         while (true)
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 SceneManager.LoadScene("Main Menu", LoadSceneMode.Single);
                 yield break;
@@ -115,6 +123,7 @@ public class RoundManager : MonoBehaviour
             yield return null;
         }
     }
+
 
     public void RoundRestart()
     {

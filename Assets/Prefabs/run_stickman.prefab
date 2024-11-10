@@ -957,6 +957,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
+  playerUImanager: {fileID: 0}
   maxHealth: 1
   knockbackForce: 125
   timeTillCorpseCleanup: 3
@@ -1004,7 +1005,7 @@ MonoBehaviour:
     m_Bits: 128
   attackSpeed: 2
   attackDamage: 25
-  attackRange: 4
+  attackRange: 3
 --- !u!114 &9012709312184310349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1032,7 +1033,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44e25d42b1765f743b5cfed1411fc466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colourTag: {r: 0, g: 0, b: 0, a: 0}
+  colourMaterial: {fileID: 0}
+  colourString: 
 --- !u!1 &3099830075102292131
 GameObject:
   m_ObjectHideFlags: 0

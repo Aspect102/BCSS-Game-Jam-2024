@@ -1,18 +1,42 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.Design;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.Rendering;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+
+public struct GameObjBool
+{
+    public GameObject GameObject;
+    public bool CanSpawn;
+
+    public GameObjBool(GameObject gameObject, bool canSpawn)
+    {
+        GameObject = gameObject;
+        CanSpawn = canSpawn;
+    }
+}
+
+
 public class SpawnManager : MonoBehaviour
 {
-    public RoundManager roundmanager;
-    public GameObject enemyPrefab;
+    public RoundManager roundManager;
+    public GameObject runEnemyPrefab;
+    public GameObject rangedEnemyPrefab;
+
     public GameObject[] mapBorders = new GameObject[4];
+    GameObjBool[] possibleRangedSpawns;
+    int numberPossibleSpawns;
+
     public Material[] materials = new Material[4];  
-    public int MinSpawnDelay = 0; // measured in seconds
-    public int MaxSpawnDelay = 5;
-    public int canSpawnDetectionRadius = 5;
+
+    public float MinSpawnDelay; // measured in seconds
+    public float MaxSpawnDelay;
+    public int canSpawnDetectionRadius = 10;
 
     private (float, float) xRange; //tuple that stores the lower bound to the upper bound
     private (float, float) zRange;
@@ -21,6 +45,7 @@ public class SpawnManager : MonoBehaviour
     private float randZ;
     private Vector3 spawnVector;
 
+
     void Awake()
     {
         xRange = (Mathf.Min(mapBorders[0].transform.position.x, mapBorders[1].transform.position.x, mapBorders[2].transform.position.x, mapBorders[3].transform.position.x),
@@ -28,8 +53,20 @@ public class SpawnManager : MonoBehaviour
 
         zRange = (Mathf.Min(mapBorders[0].transform.position.z, mapBorders[1].transform.position.z, mapBorders[2].transform.position.z, mapBorders[3].transform.position.z),
             Mathf.Max(mapBorders[0].transform.position.z, mapBorders[1].transform.position.z, mapBorders[2].transform.position.z, mapBorders[3].transform.position.z));
+    
+
+        GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+        numberPossibleSpawns = spawnPoints.Length;
+        possibleRangedSpawns = new GameObjBool[numberPossibleSpawns];
+
+
+        for (int i = 0; i < numberPossibleSpawns; i++)
+        {
+            possibleRangedSpawns[i] = new GameObjBool(spawnPoints[i], true);
+        }
     }
     
+
     void SetPrefabProperties(Material[] materials, GameObject prefab)
     {
         #region Assign new random material
@@ -69,9 +106,17 @@ public class SpawnManager : MonoBehaviour
         #endregion
     }
 
+
     public IEnumerator StartSpawning(int enemyRoundCount)
     {
-        while (enemyRoundCount > 0)
+        float percentageRanged = 0.125f;
+        int numberOfRangedEnemies = (int)Math.Ceiling(enemyRoundCount * percentageRanged);
+        int numberOfRunEnemies = enemyRoundCount - numberOfRangedEnemies;
+
+        Debug.Log(enemyRoundCount);
+        Debug.Log(numberOfRangedEnemies);
+
+        for (int i = 0; i < numberOfRunEnemies; i++)
         {
             randX = Random.Range(xRange.Item1, xRange.Item2);
             randZ = Random.Range(zRange.Item1, zRange.Item2);
@@ -79,20 +124,47 @@ public class SpawnManager : MonoBehaviour
 
             if (Physics.CheckSphere(spawnVector, canSpawnDetectionRadius))
             {
-                GameObject newEnemy = Instantiate(enemyPrefab, spawnVector, Quaternion.identity);
+                GameObject newEnemy = Instantiate(runEnemyPrefab, spawnVector, Quaternion.identity);
                 SetPrefabProperties(materials, newEnemy);
             };
 
             yield return new WaitForSeconds(Random.Range(MinSpawnDelay, MaxSpawnDelay));
             enemyRoundCount--;
-            roundmanager.enemyLeftToSpawn--;
+            roundManager.enemyLeftToSpawn--;
+        }
+
+        // create temporary struct to modify for this round only
+        GameObjBool[] tempPossibleRangedSpawns = possibleRangedSpawns;
+
+        for (int i = 0; i < numberOfRangedEnemies; i++)
+        {
+            bool notFoundLocation = true;
+
+            while (notFoundLocation)
+            {
+                int chosenLocation = Random.Range(0, numberPossibleSpawns);
+                if (tempPossibleRangedSpawns[chosenLocation].CanSpawn == true)
+                {
+                    notFoundLocation = false;
+                    tempPossibleRangedSpawns[chosenLocation].CanSpawn = false;
+
+                    spawnVector = tempPossibleRangedSpawns[chosenLocation].GameObject.transform.position;
+
+                    GameObject newEnemy = Instantiate(rangedEnemyPrefab, spawnVector, Quaternion.identity);
+                    SetPrefabProperties(materials, newEnemy);
+
+                    yield return new WaitForSeconds(Random.Range(MinSpawnDelay, MaxSpawnDelay));
+                    enemyRoundCount--;
+                    roundManager.enemyLeftToSpawn--;
+                }
+            }
         }
 
         while (true)
         {
             if (!GameObject.FindGameObjectWithTag("Enemy"))
             {
-                roundmanager.RoundRestart();
+                roundManager.RoundRestart();
                 yield break;
             }
             yield return null;

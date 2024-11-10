@@ -1337,6 +1337,7 @@ GameObject:
   - component: {fileID: 7916769961103527339}
   - component: {fileID: 3909468861678290899}
   - component: {fileID: 8442096679708418920}
+  - component: {fileID: 4439633208729530283}
   m_Layer: 8
   m_Name: range_stickman
   m_TagString: Enemy
@@ -1447,6 +1448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
+  playerUImanager: {fileID: 0}
   maxHealth: 1
   knockbackForce: 125
   timeTillCorpseCleanup: 3
@@ -1482,6 +1484,20 @@ MonoBehaviour:
   maxAttackSpeed: 3
   spawnPoint: {fileID: 0}
   bulletPrefab: {fileID: 8459831829969446188, guid: 5fd218881e23b6c44a9b62440c5b79fb, type: 3}
+--- !u!114 &4439633208729530283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5087665871672169824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44e25d42b1765f743b5cfed1411fc466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colourMaterial: {fileID: 0}
+  colourString: 
 --- !u!1 &5958809361622922031
 GameObject:
   m_ObjectHideFlags: 0

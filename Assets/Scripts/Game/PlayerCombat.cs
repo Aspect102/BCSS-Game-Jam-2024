@@ -42,6 +42,7 @@ public class PlayerCombat : MonoBehaviour
             Attack(); 
         }
     }
+    
     public void TakeDamage(int amount)
     {
         var newHealth = playerHealth - amount;
