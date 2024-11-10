@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilityController : MonoBehaviour
+public class CustomTags : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Material colourMaterial;
+    public string colourString;
+
     void Start()
     {
-        
+        colourString = colourMaterial.name;
     }
 
-    // Update is called once per frame
     void Update()
     {
         

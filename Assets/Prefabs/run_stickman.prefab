@@ -847,6 +847,7 @@ GameObject:
   - component: {fileID: 8527412537644439976}
   - component: {fileID: 6227455920036461186}
   - component: {fileID: 9012709312184310349}
+  - component: {fileID: -4164637809009591030}
   m_Layer: 8
   m_Name: run_stickman
   m_TagString: Enemy
@@ -935,7 +936,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1019,6 +1020,19 @@ MonoBehaviour:
   cam: {fileID: 0}
   player: {fileID: 0}
   splatterDecalParticles: {fileID: 0}
+--- !u!114 &-4164637809009591030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2637622954208964574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44e25d42b1765f743b5cfed1411fc466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colourTag: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &3099830075102292131
 GameObject:
   m_ObjectHideFlags: 0
@@ -6456,6 +6470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particleSystem: {fileID: 3769456711527039323}
+  player: {fileID: 0}
 --- !u!1 &7208532059783897201
 GameObject:
   m_ObjectHideFlags: 0

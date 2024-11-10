@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
     public Camera cam;
+    public RoundManager roundManager;
 
     public int playerHealth;
     public float attackDistance = 18f;
@@ -48,13 +49,8 @@ public class PlayerCombat : MonoBehaviour
 
         if (playerHealth == 0)
         {
-            Death();
+            roundManager.RoundFail();
         }
-    }
-
-    public void Death()
-    {
-        gameObject.SetActive(false);
     }
 
     public void Attack()
@@ -100,7 +96,7 @@ public class PlayerCombat : MonoBehaviour
 
             if(hit.transform.TryGetComponent<EnemyHurt>(out EnemyHurt enemyHurt))
             { 
-                enemyHurt.TakeDamage(attackDamage); 
+                enemyHurt.TakeDamage(attackDamage);
             }
         } 
     }

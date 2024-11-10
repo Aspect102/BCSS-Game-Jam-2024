@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,6 +28,8 @@ public class PlayerUIManager : MonoBehaviour
     public Slider soundSlider;
     public Slider musicSlider;
     public Slider sensSlider;
+
+    public TextMeshProUGUI[] colourCounters = new TextMeshProUGUI[4]; // blue orange purple green
     // soundMultiplier, musicMultiplier and sensMultiplier are static variables set in OptionsManager script in the main menu scene
 
 
@@ -129,6 +133,26 @@ public class PlayerUIManager : MonoBehaviour
         Cursor.visible = true;
     }
 
+    public void UpdateEnemyKilledIcons(GameObject gameobject)
+    {
+        switch (gameobject.GetComponent<CustomTags>().colourString)
+        {
+            case ("blue mat"):
+                colourCounters[0].text = (Convert.ToInt32(colourCounters[0].text) + 1).ToString();
+                break;
+            case ("orange mat"):
+                colourCounters[1].text  = (Convert.ToInt32(colourCounters[1].text) + 1).ToString();
+                break;
+            case ("purple mat"):
+                colourCounters[2].text = (Convert.ToInt32(colourCounters[2].text) + 1).ToString();
+                break;
+            case ("green mat"):
+                colourCounters[3].text = (Convert.ToInt32(colourCounters[3].text) + 1).ToString();
+                break;
+            default:
+                break;
+        }
+    }
     void MainMenuButtonClicked()
     {
         gameIsPaused = false;

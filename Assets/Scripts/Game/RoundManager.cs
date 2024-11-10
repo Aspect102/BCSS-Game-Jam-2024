@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RoundManager : MonoBehaviour
 {
@@ -16,18 +17,23 @@ public class RoundManager : MonoBehaviour
     private int minutes;
     private int seconds;
 
-    public int enemyCount;
-    private int enemiesRemaining;
+    public int enemyRoundCount;
+    public int enemyLeftToSpawn;
+    private int[] enemiesRemainingText = new int[4]; // blue orange purple green
+
+    private int constantC = 5;
+    private int constantN = 20; // see desmos
 
     void Start()
     {
-        enemiesRemaining = enemyCount;
+        RoundCountUpdate(out enemyRoundCount);
+        enemyLeftToSpawn = enemyRoundCount;
         timeRemaining = roundLength;
         spawnManager = GetComponent<SpawnManager>();
-    
-        StartCoroutine(spawnManager.StartSpawning()); // must change when UI is here (button to activate should be easy enough)
 
-        displayText.text = currentRound.ToString(); 
+        StartCoroutine(spawnManager.StartSpawning(enemyRoundCount)); // must change when UI is here (button to activate should be easy enough)
+
+        displayText.text = currentRound.ToString();
         displayText.enabled = true;
         Invoke(nameof(startRoundDisplayCoroutine), fadeDelay); // show round at full opacity for some time before fading
     }
@@ -36,7 +42,13 @@ public class RoundManager : MonoBehaviour
     {
         StartCoroutine(RoundDisplay(currentRound.ToString(), displayTextFadeOut));
     }
-    
+
+    void RoundCountUpdate(out int enemyRoundCount)
+    {
+        var x = (currentRound + 5) ^ 2;
+        enemyRoundCount = (int)Mathf.Round(1 / constantN * x + constantC - Mathf.Log(currentRound));
+    }
+
     public IEnumerator RoundDisplay(string text, float time)
     {
         while (displayText.color.a > 0.0f)
@@ -56,15 +68,59 @@ public class RoundManager : MonoBehaviour
 
         if (timeRemaining <= 0)
         {
-            RoundRestart();
+            RoundFail();
         }
     }
 
-    void RoundRestart()
+    public void RoundFail()
     {
-        StopCoroutine(spawnManager.StartSpawning());
+        var blocked = false;
+
+        if (blocked)
+        {
+            return;
+        }
+
+        blocked = true;
+
+        spawnManager.StopAllCoroutines();
+        StopAllCoroutines();
+        timeRemaining = 0;
+        currentRound = 1;
+        RoundCountUpdate(out enemyRoundCount);
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+
+        displayText.text = "Score: SOME SCORE";
+        displayText.enabled = true;
+        displayText.color = new Color(displayText.color.r, displayText.color.g, displayText.color.b, 1);
+        enemyLeftToSpawn = 0;
+
+        StartCoroutine(EndGame());
+    }
+
+    private IEnumerator EndGame()
+    {
+        while (true)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneManager.LoadScene("Main Menu", LoadSceneMode.Single);
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    public void RoundRestart()
+    {
         timeRemaining = roundLength;
         currentRound++;
+        RoundCountUpdate(out enemyRoundCount);
 
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in enemies)
@@ -74,7 +130,10 @@ public class RoundManager : MonoBehaviour
 
         displayText.text = currentRound.ToString();
         displayText.enabled = true;
-        displayText.color = new Color(displayText.color.r, displayText.color.g, displayText.color.b, 1); 
+        displayText.color = new Color(displayText.color.r, displayText.color.g, displayText.color.b, 1);
         Invoke(nameof(startRoundDisplayCoroutine), fadeDelay); // show round at full opacity for some time before fading
+
+        enemyLeftToSpawn = enemyRoundCount;
+        StartCoroutine(spawnManager.StartSpawning(enemyRoundCount));
     }
 }

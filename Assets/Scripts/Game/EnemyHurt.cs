@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class EnemyHurt : MonoBehaviour
 {
     public Camera cam;
+    public PlayerUIManager playerUImanager;
 
     private int currentHealth;
     public int maxHealth;
@@ -69,6 +70,9 @@ public class EnemyHurt : MonoBehaviour
 
     void Death()
     {
+        playerUImanager = GameObject.FindWithTag("ServerScripts").GetComponent<PlayerUIManager>();
+        playerUImanager.UpdateEnemyKilledIcons(gameObject);
+
         EnableRagdoll();
         Invoke(nameof(Cleanup), timeTillCorpseCleanup);
         

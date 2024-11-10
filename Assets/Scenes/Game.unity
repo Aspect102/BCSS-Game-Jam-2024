@@ -3959,6 +3959,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
+  isGrounded: 0
   playerBody: {fileID: 1603717946}
   playerSpeed: 20
   jumpHeight: 7
@@ -3982,6 +3983,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 963194227}
+  roundManager: {fileID: 1167996221}
+  playerHealth: 100
   attackDistance: 16
   attackDelay: 0.1
   attackSpeed: 0.5
@@ -11389,7 +11392,7 @@ GameObject:
   - component: {fileID: 1167996223}
   m_Layer: 0
   m_Name: ServerScripts
-  m_TagString: Untagged
+  m_TagString: ServerScripts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11406,6 +11409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564ede753d3ae8947a8279376c0209ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roundmanager: {fileID: 1167996221}
   enemyPrefab: {fileID: 2637622954208964574, guid: acc93caf819fe904fadb3243ccabc378, type: 3}
   mapBorders:
   - {fileID: 1818798294}
@@ -11438,7 +11442,8 @@ MonoBehaviour:
   fadeDelay: 0.5
   displayTextFadeOut: 0.7
   timeRemaining: 0
-  enemyCount: 0
+  enemyRoundCount: 0
+  enemyLeftToSpawn: 0
 --- !u!4 &1167996222
 Transform:
   m_ObjectHideFlags: 0
@@ -11474,6 +11479,11 @@ MonoBehaviour:
   soundSlider: {fileID: 820905793}
   musicSlider: {fileID: 23726739}
   sensSlider: {fileID: 1986450468}
+  colourCounters:
+  - {fileID: 1054251146}
+  - {fileID: 730694484}
+  - {fileID: 157621636}
+  - {fileID: 1243204523}
 --- !u!1 &1243204521
 GameObject:
   m_ObjectHideFlags: 0

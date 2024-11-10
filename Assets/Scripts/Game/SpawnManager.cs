@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 
 public class SpawnManager : MonoBehaviour
 {
+    public RoundManager roundmanager;
     public GameObject enemyPrefab;
     public GameObject[] mapBorders = new GameObject[4];
     public Material[] materials = new Material[4];  
@@ -29,12 +30,13 @@ public class SpawnManager : MonoBehaviour
             Mathf.Max(mapBorders[0].transform.position.z, mapBorders[1].transform.position.z, mapBorders[2].transform.position.z, mapBorders[3].transform.position.z));
     }
     
-    void SetRandomPrefabColors(Material[] materials, GameObject prefab)
+    void SetPrefabProperties(Material[] materials, GameObject prefab)
     {
         #region Assign new random material
 
         Material randomMaterial = materials[Random.Range(0, 4)];
         prefab.GetComponentInChildren<SkinnedMeshRenderer>().material = randomMaterial;
+
         #endregion
 
         #region Set SplatterController
@@ -50,6 +52,7 @@ public class SpawnManager : MonoBehaviour
 
         gradient.SetKeys(colors, alphas);
         prefab.GetComponentInChildren<SplatterController>().particleGradient = gradient;
+
         #endregion
 
         #region Set Particle System
@@ -58,11 +61,17 @@ public class SpawnManager : MonoBehaviour
         startColor.startColor = gradient;
 
         #endregion
+
+        #region Add colour tags based on colour for top text enemy tracking
+
+        prefab.GetComponent<CustomTags>().colourMaterial = randomMaterial;
+
+        #endregion
     }
 
-    public IEnumerator StartSpawning()
+    public IEnumerator StartSpawning(int enemyRoundCount)
     {
-        while (true)
+        while (enemyRoundCount > 0)
         {
             randX = Random.Range(xRange.Item1, xRange.Item2);
             randZ = Random.Range(zRange.Item1, zRange.Item2);
@@ -71,10 +80,22 @@ public class SpawnManager : MonoBehaviour
             if (Physics.CheckSphere(spawnVector, canSpawnDetectionRadius))
             {
                 GameObject newEnemy = Instantiate(enemyPrefab, spawnVector, Quaternion.identity);
-                SetRandomPrefabColors(materials, newEnemy);
+                SetPrefabProperties(materials, newEnemy);
             };
 
             yield return new WaitForSeconds(Random.Range(MinSpawnDelay, MaxSpawnDelay));
+            enemyRoundCount--;
+            roundmanager.enemyLeftToSpawn--;
+        }
+
+        while (true)
+        {
+            if (!GameObject.FindGameObjectWithTag("Enemy"))
+            {
+                roundmanager.RoundRestart();
+                yield break;
+            }
+            yield return null;
         }
     }
 }

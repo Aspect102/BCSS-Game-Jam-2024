@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SplatterDecalParticles
   - Enemy
+  - ServerScripts
   layers:
   - Default
   - TransparentFX
