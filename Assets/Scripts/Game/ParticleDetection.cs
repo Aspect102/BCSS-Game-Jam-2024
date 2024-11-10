@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ParticleDetection : MonoBehaviour
 {
-    [SerializeField] ParticleSystem particleSystem;
+    [SerializeField] new ParticleSystem particleSystem;
     [SerializeField] GameObject player;
     
 

@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyRun : MonoBehaviour
+public class RunEnemyController : MonoBehaviour
 {
     public NavMeshAgent agent;
     public Transform playerTransform;
@@ -10,7 +10,7 @@ public class EnemyRun : MonoBehaviour
 
     public float attackSpeed; // time between attacks
     public int attackDamage;
-    bool alreadyAttacked = false;
+    // bool alreadyAttacked = false;
 
     public float attackRange;
     bool playerInRange;
@@ -81,11 +81,11 @@ public class EnemyRun : MonoBehaviour
         PlayerController playercontroller = player.GetComponent<PlayerController>();
         if (playercontroller.isGrounded)
         {
-            alreadyAttacked = true;
+            // alreadyAttacked = true;
             PlayerCombat playerCombat = player.GetComponent<PlayerCombat>();
             playerCombat.TakeDamage(attackDamage);
             yield return new WaitForSeconds(attackSpeed);
-            alreadyAttacked = false;
+            // alreadyAttacked = false;
         } 
     }
 
