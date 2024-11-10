@@ -8,6 +8,9 @@ TagManager:
   - Enemy
   - ServerScripts
   - SpawnPoint
+  - ScoreText
+  - KilledText
+  - RoundText
   layers:
   - Default
   - TransparentFX

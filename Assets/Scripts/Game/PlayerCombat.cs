@@ -8,6 +8,7 @@ public class PlayerCombat : MonoBehaviour
     public RoundManager roundManager;
 
     public int playerHealth;
+    public int kills;
     public float attackDistance = 18f;
     public float attackDelay = 0.1f; // time between attack and sending out ray
     public float attackSpeed = 0.5f; // time between attacks

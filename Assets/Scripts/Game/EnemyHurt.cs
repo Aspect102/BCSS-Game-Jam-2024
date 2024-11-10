@@ -8,6 +8,7 @@ public class EnemyHurt : MonoBehaviour
 {
     public Camera cam;
     public PlayerUIManager playerUImanager;
+    public PlayerCombat playerCombat;
 
     private int currentHealth;
     public int maxHealth;
@@ -68,7 +69,7 @@ public class EnemyHurt : MonoBehaviour
     {
         currentHealth -= amount;
 
-        if(currentHealth <= 0)
+        if (currentHealth <= 0)
         { 
             Death(); 
         }
@@ -79,7 +80,9 @@ public class EnemyHurt : MonoBehaviour
     {
         playerUImanager = GameObject.FindWithTag("ServerScripts").GetComponent<PlayerUIManager>();
         playerUImanager.UpdateEnemyKilledIcons(gameObject);
-
+        playerCombat = GameObject.FindWithTag("Player").GetComponent<PlayerCombat>();
+        playerCombat.kills++;
+        
         EnableRagdoll();
         Invoke(nameof(Cleanup), timeTillCorpseCleanup);
         
