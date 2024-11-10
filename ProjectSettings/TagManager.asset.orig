@@ -7,10 +7,13 @@ TagManager:
   - SplatterDecalParticles
   - Enemy
   - ServerScripts
-  - SpawnPoint
+<<<<<<< HEAD
   - ScoreText
   - KilledText
   - RoundText
+=======
+  - SpawnPoint
+>>>>>>> dcb1ac3 (ranged enemy now spawns)
   layers:
   - Default
   - TransparentFX

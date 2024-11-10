@@ -28,8 +28,12 @@ public class RoundManager : MonoBehaviour
     private int constantC = 5;
     private int constantN = 20; // see desmos
 
-
+<<<<<<< HEAD
     IEnumerator Start()
+=======
+
+    void Start()
+>>>>>>> dcb1ac3 (ranged enemy now spawns)
     {
         RoundCountUpdate(out enemyRoundCount);
         enemyLeftToSpawn = enemyRoundCount;
