@@ -10,6 +10,9 @@ public class RoundManager : MonoBehaviour
     public TextMeshProUGUI displayText;
     public float fadeDelay;
     public float displayTextFadeOut = 0.25f;
+    public PlayerUIManager playerUImanager;
+    public PlayerCombat playerCombat;
+    public GameObject character;
 
     [SerializeField] private float timeRemaining; //debugging purposes etc
     private SpawnManager spawnManager;
@@ -24,13 +27,13 @@ public class RoundManager : MonoBehaviour
     private int constantC = 5;
     private int constantN = 20; // see desmos
 
-    void Start()
+    IEnumerator Start()
     {
         RoundCountUpdate(out enemyRoundCount);
         enemyLeftToSpawn = enemyRoundCount;
         timeRemaining = roundLength;
         spawnManager = GetComponent<SpawnManager>();
-
+        yield return new WaitForSeconds(3);
         StartCoroutine(spawnManager.StartSpawning(enemyRoundCount)); // must change when UI is here (button to activate should be easy enough)
 
         displayText.text = currentRound.ToString();
@@ -86,7 +89,6 @@ public class RoundManager : MonoBehaviour
         spawnManager.StopAllCoroutines();
         StopAllCoroutines();
         timeRemaining = 0;
-        currentRound = 1;
         RoundCountUpdate(out enemyRoundCount);
 
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -95,9 +97,8 @@ public class RoundManager : MonoBehaviour
             Destroy(enemy);
         }
 
-        displayText.text = "Score: SOME SCORE";
-        displayText.enabled = true;
-        displayText.color = new Color(displayText.color.r, displayText.color.g, displayText.color.b, 1);
+        //character.GetComponent<AudioSource>().Play(); - maybe one day
+        playerUImanager.GameOverDisplay(playerCombat.kills, currentRound);
         enemyLeftToSpawn = 0;
 
         StartCoroutine(EndGame());
@@ -107,7 +108,7 @@ public class RoundManager : MonoBehaviour
     {
         while (true)
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 SceneManager.LoadScene("Main Menu", LoadSceneMode.Single);
                 yield break;

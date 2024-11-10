@@ -23,6 +23,11 @@ public class MainMenuController : MonoBehaviour
         QuitButton.onClick.AddListener(QuitCoroutineStarter);
     }
 
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
 
     void PlayButtonClicked()
     { 

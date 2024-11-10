@@ -29,6 +29,8 @@ public class PlayerUIManager : MonoBehaviour
     public Slider musicSlider;
     public Slider sensSlider;
 
+    public GameObject gameOverPanel;
+
     public TextMeshProUGUI[] colourCounters = new TextMeshProUGUI[4]; // blue orange purple green
     // soundMultiplier, musicMultiplier and sensMultiplier are static variables set in OptionsManager script in the main menu scene
 
@@ -103,12 +105,20 @@ public class PlayerUIManager : MonoBehaviour
 
     }
 
+    public void GameOverDisplay(int kills, int round)
+    {
+        gameOverPanel.SetActive(true);
+        TextMeshProUGUI roundText = GameObject.FindGameObjectWithTag("RoundText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI killedText = GameObject.FindGameObjectWithTag("KilledText").GetComponent<TextMeshProUGUI>();
+
+        roundText.text = $"Round: {round}";
+        killedText.text = $"Kills: {kills}";
+    }
 
     public void SetSens(float sens) // sens set in PlayerController script
     {
         OptionsManager.sensMultiplier = sens;
         playerController.setOptionMultipliers();
-
     }
 
 

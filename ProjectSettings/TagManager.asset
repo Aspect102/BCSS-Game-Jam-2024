@@ -7,6 +7,9 @@ TagManager:
   - SplatterDecalParticles
   - Enemy
   - ServerScripts
+  - ScoreText
+  - KilledText
+  - RoundText
   layers:
   - Default
   - TransparentFX
