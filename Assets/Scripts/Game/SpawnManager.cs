@@ -25,6 +25,7 @@ public struct GameObjBool
 public class SpawnManager : MonoBehaviour
 {
     public RoundManager roundManager;
+    public PlayerUIManager playerUIManager;
     public GameObject runEnemyPrefab;
     public GameObject rangedEnemyPrefab;
 
@@ -54,7 +55,6 @@ public class SpawnManager : MonoBehaviour
         zRange = (Mathf.Min(mapBorders[0].transform.position.z, mapBorders[1].transform.position.z, mapBorders[2].transform.position.z, mapBorders[3].transform.position.z),
             Mathf.Max(mapBorders[0].transform.position.z, mapBorders[1].transform.position.z, mapBorders[2].transform.position.z, mapBorders[3].transform.position.z));
     
-
         GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
         numberPossibleSpawns = spawnPoints.Length;
         possibleRangedSpawns = new GameObjBool[numberPossibleSpawns];
@@ -113,8 +113,8 @@ public class SpawnManager : MonoBehaviour
         int numberOfRangedEnemies = (int)Math.Ceiling(enemyRoundCount * percentageRanged);
         int numberOfRunEnemies = enemyRoundCount - numberOfRangedEnemies;
 
-        Debug.Log(enemyRoundCount);
-        Debug.Log(numberOfRangedEnemies);
+        Debug.Log("run enemies:" + numberOfRunEnemies);
+        Debug.Log("ranged enemies:" + numberOfRangedEnemies);
 
         for (int i = 0; i < numberOfRunEnemies; i++)
         {
@@ -164,7 +164,7 @@ public class SpawnManager : MonoBehaviour
         {
             if (!GameObject.FindGameObjectWithTag("Enemy"))
             {
-                roundManager.RoundRestart();
+                playerUIManager.ShowCards();
                 yield break;
             }
             yield return null;

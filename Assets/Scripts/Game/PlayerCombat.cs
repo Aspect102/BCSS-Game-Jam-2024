@@ -7,12 +7,13 @@ public class PlayerCombat : MonoBehaviour
     public Camera cam;
     public RoundManager roundManager;
 
-    public int playerHealth;
+    public float playerHealth;
+    public float playerMaxHealth;
     public int kills;
     public float attackDistance = 18f;
     public float attackDelay = 0.1f; // time between attack and sending out ray
     public float attackSpeed = 0.5f; // time between attacks
-    public int attackDamage = 1;
+    public static float attackDamage = 1;
     public LayerMask enemyLayer;
 
     // public GameObject hitEffect;
@@ -44,10 +45,11 @@ public class PlayerCombat : MonoBehaviour
         }
     }
     
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         var newHealth = playerHealth - amount;
-        playerHealth = Mathf.Clamp(newHealth, 0, 100);
+        playerHealth = Mathf.Clamp(newHealth, 0, playerMaxHealth);
+        PlayerUIManager.VignetteCheck(playerHealth, playerMaxHealth);
 
         if (playerHealth == 0)
         {

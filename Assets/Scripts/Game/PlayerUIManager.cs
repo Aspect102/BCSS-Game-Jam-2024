@@ -1,19 +1,21 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 
 public class PlayerUIManager : MonoBehaviour
 {
     // IN MAIN MENU SCENE, OPTIONS SLIDERS ARE MANAGED BY OptionsManager SCRIPT
 
+    public float[] vignetteStages = new float[4];
     public GameObject player;
     PlayerController playerController;
+    public UpgradeController upgradeController;
 
     int maxDashCharges;
     int dashCharges;
@@ -35,7 +37,8 @@ public class PlayerUIManager : MonoBehaviour
     // soundMultiplier, musicMultiplier and sensMultiplier are static variables set in OptionsManager script in the main menu scene
 
 
-    void Awake() {
+    void Awake()
+    {
         // soundSlider.onValueChanged.AddListener();
         // musicSlider.onValueChanged.AddListener();
         sensSlider.onValueChanged.AddListener(SetSens);
@@ -72,7 +75,7 @@ public class PlayerUIManager : MonoBehaviour
     {
         // dash ui
         dashCharges = playerController.dashCharges;
-        
+
         for (int i = 0; i < maxDashCharges; i++)
         {
             Image image = staminaDotsArray[i];
@@ -122,7 +125,7 @@ public class PlayerUIManager : MonoBehaviour
     }
 
 
-    public void Resume() 
+    public void Resume()
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
@@ -145,21 +148,23 @@ public class PlayerUIManager : MonoBehaviour
 
     public void UpdateEnemyKilledIcons(GameObject gameobject)
     {
+
         switch (gameobject.GetComponent<CustomTags>().colourString)
         {
             case ("blue mat"):
                 colourCounters[0].text = (Convert.ToInt32(colourCounters[0].text) + 1).ToString();
                 break;
             case ("orange mat"):
-                colourCounters[1].text  = (Convert.ToInt32(colourCounters[1].text) + 1).ToString();
+                colourCounters[1].text = (Convert.ToInt32(colourCounters[1].text) + 1).ToString();
                 break;
             case ("purple mat"):
-                colourCounters[2].text = (Convert.ToInt32(colourCounters[2].text) + 1).ToString();
+                colourCounters[2].text = (Convert.ToInt32(colourCounters[2].text) + 1).ToString(); // in future maybe change
                 break;
             case ("green mat"):
                 colourCounters[3].text = (Convert.ToInt32(colourCounters[3].text) + 1).ToString();
                 break;
             default:
+                Debug.Log("fart alert");
                 break;
         }
     }
@@ -168,5 +173,46 @@ public class PlayerUIManager : MonoBehaviour
         gameIsPaused = false;
         Time.timeScale = 1f;
         SceneManager.LoadSceneAsync("Main Menu", LoadSceneMode.Single); //IMPORTANT NOTE: THIS MEANS ONLY ONE SCENE AT A TIME!
+    }
+
+    public void ShowCards()
+    {
+        GameObject[] cardArray = GameObject.FindGameObjectsWithTag("Card");
+        var random1 = Random.Range(0, cardArray.Length);
+        var random2 = Random.Range(0, cardArray.Length);
+        while (random1 == random2)
+        {
+            random2 = Random.Range(0, cardArray.Length);
+        }
+        GameObject[] randomCards = { cardArray[random1], cardArray[random2] };
+        randomCards[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(-280, 125);
+        randomCards[1].GetComponent<RectTransform>().anchoredPosition = new Vector2(320, 125);
+        randomCards[0].SetActive(true);
+        randomCards[1].SetActive(true);
+
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true; 
+    }
+
+    public void CardClicked(GameObject cardObj)
+    {
+        upgradeController.ApplyCardProperties(upgradeController.cards.Find(c => c.cardName == cardObj.name));
+        HideCards();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    void HideCards()
+    {
+        GameObject[] cardArray = GameObject.FindGameObjectsWithTag("Card");
+        foreach (GameObject card in cardArray) 
+        {
+            card.GetComponent<RectTransform>().anchoredPosition = new Vector2(1000, 100); // far away
+        }
+    }
+
+    public static void VignetteCheck(float playerHealth, float maxHealth)
+    {
+        
     }
 }

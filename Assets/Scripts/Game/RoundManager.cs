@@ -14,10 +14,11 @@ public class RoundManager : MonoBehaviour
     public PlayerUIManager playerUImanager;
     public PlayerCombat playerCombat;
     public GameObject character;
+    public UpgradeController upgradeController;
 
     [SerializeField] private float timeRemaining; //debugging purposes etc
     private SpawnManager spawnManager;
-    private int currentRound = 1; // we will be counting from 1 for rounds
+    [SerializeField] private int currentRound = 1; // we will be counting from 1 for rounds
     private int minutes;
     private int seconds;
 
@@ -36,7 +37,7 @@ public class RoundManager : MonoBehaviour
         timeRemaining = roundLength;
         spawnManager = GetComponent<SpawnManager>();
         yield return new WaitForSeconds(3);
-        StartCoroutine(spawnManager.StartSpawning(enemyRoundCount)); // must change when UI is here (button to activate should be easy enough)
+        StartCoroutine(spawnManager.StartSpawning(enemyRoundCount));
 
         displayText.text = currentRound.ToString();
         displayText.enabled = true;

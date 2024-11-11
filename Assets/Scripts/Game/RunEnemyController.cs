@@ -8,8 +8,8 @@ public class RunEnemyController : MonoBehaviour
     public Transform playerTransform;
     public LayerMask groundLayer, playerLayer;
 
-    public float attackSpeed; // time between attacks
-    public int attackDamage;
+    public static float attackSpeed = 1.5f; // time between attacks
+    public static float attackDamage = 20;
     // bool alreadyAttacked = false;
 
     public float attackRange;
@@ -103,6 +103,7 @@ public class RunEnemyController : MonoBehaviour
         animator.CrossFadeInFixedTime(currentAnimationState, 0.3f);
         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
         {
+            Debug.Log("hello I am here");
             StartCoroutine(AttackPlayer());
         }
     }

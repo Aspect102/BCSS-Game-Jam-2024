@@ -10,7 +10,7 @@ public class EnemyHurt : MonoBehaviour
     public PlayerUIManager playerUImanager;
     public PlayerCombat playerCombat;
 
-    private int currentHealth;
+    private float currentHealth;
     public int maxHealth;
     public float knockbackForce;
     public float timeTillCorpseCleanup;
@@ -65,7 +65,7 @@ public class EnemyHurt : MonoBehaviour
     }
 
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         currentHealth -= amount;
 

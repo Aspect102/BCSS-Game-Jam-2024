@@ -11,6 +11,7 @@ TagManager:
   - ScoreText
   - KilledText
   - RoundText
+  - Card
   layers:
   - Default
   - TransparentFX
