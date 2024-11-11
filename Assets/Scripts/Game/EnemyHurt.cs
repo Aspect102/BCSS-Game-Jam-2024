@@ -92,17 +92,6 @@ public class EnemyHurt : MonoBehaviour
         emission.enabled = true;
     }
 
-
-    public void test(GameObject other)
-    {
-        Debug.Log("Test");
-        if (other.CompareTag("Player"))
-        {
-            PlayerCombat playerCombat = other.GetComponent<PlayerCombat>();
-            playerCombat.TakeDamage(-10);
-        }
-    }
-
     void Cleanup()
     {
         Destroy(gameObject);

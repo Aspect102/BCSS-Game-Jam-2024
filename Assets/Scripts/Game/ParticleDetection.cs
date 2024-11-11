@@ -23,6 +23,6 @@ public class ParticleDetection : MonoBehaviour
 
     private void OnParticleTrigger()
     {
-        player.GetComponent<PlayerCombat>().TakeDamage(-1);
+        player.GetComponent<PlayerCombat>().TakeDamage(-2f);
     }
 }
