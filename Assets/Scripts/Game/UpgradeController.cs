@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class UpgradeController : MonoBehaviour
 {
@@ -12,24 +14,29 @@ public class UpgradeController : MonoBehaviour
     public PlayerController playerController;
 
     public GameObject player;
-    private Card brawlerCard;
-    private Card fastHandsCard;
-    private Card sprinterCard;
-    private Card healerCard;
+    private Card brawlerCard, fastHandsCard, sprinterCard, healerCard, doctorOfDeathCard, tankCard, manipulatorCard, atrainCard;
     public List<Card> playerCards = new List<Card>();
     public List<Card> cards = new List<Card>();
 
     private void Awake()
     {
-        brawlerCard = new Card("brawler", "orange", 15f, 0.1f, 0.05f, -0.1f, 0f, 0f, 0f, 0f, 0f, 0f);
-        fastHandsCard = new Card("fastHands", "orange", 15f, -0.05f, 0f, 0.1f, 0f, 0f, 0f, 0f, 0f, 0f);
-        sprinterCard = new Card("sprinter", "blue", 10f, 0f, 0f, 0f, 0f, 0f, 0f, -0.05f, 0f, 0.05f);
-        healerCard = new Card("medic", "green", 5f, 0f, 0f, 0f, 0.05f, 0f, 0f, 0f, 0f, 0f);
+        brawlerCard = new Card("brawler", "orange", 5f, 0.1f, 0.05f, -0.1f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,("", 0f));
+        fastHandsCard = new Card("fastHands", "orange", 5f, -0.05f, 0f, 0.1f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,("", 0f));
+        sprinterCard = new Card("sprinter", "blue", 5f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, -0.05f, 0f, 0.05f,("", 0f));
+        healerCard = new Card("medic", "green", 5f, 0f, 0f, 0f, 0.05f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,("", 0f));
+        doctorOfDeathCard = new Card("doctorofdeath", "green", 10f, 0.20f, 0.15f, 0.20f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,("healthRecurring", -0.01f));
+        tankCard = new Card("tank", "orange", 10f, 0.1f, -0.2f, -0.2f, 1f, 0f, 0f, 0f, 0f, 0f, 0f, -0.2f, ("", 0f));
+        manipulatorCard = new Card("manipulator", "purple", 10f, 0f, 0f, 0f, -0.05f, -0.1f, 0f, 0f, -0.1f, 0f, 0f, 0f, ("", 0f));
+        atrainCard = new Card("atrain", "blue", 10f, -0.05f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, -0.15f, 0.1f, 0.3f, ("", 0f));
 
         cards.Add(brawlerCard);
         cards.Add(fastHandsCard);
         cards.Add(sprinterCard);
         cards.Add(healerCard);
+        cards.Add(doctorOfDeathCard);
+        cards.Add(tankCard);
+        cards.Add(manipulatorCard);
+        cards.Add(atrainCard);
     }
 
     enum lol
@@ -56,13 +63,28 @@ public class UpgradeController : MonoBehaviour
         playerCombat.playerMaxHealth *= card.health + 1;
         RunEnemyController.attackDamage *= card.enemyDamage + 1;
         RunEnemyController.attackSpeed *= card.enemyAttackSpeed + 1;
+        RangeEnemyController.minAttackSpeed *= card.enemyAttackSpeed + 1;
+        RangeEnemyController.maxAttackSpeed *= card.enemyAttackSpeed + 1;
         playerController.maxDashCooldown *= card.dashCooldown + 1;
         playerController.dashSpeed *= card.dashDistance + 1;
         playerController.playerSpeed *= card.walkSpeed + 1;
 
+        if (card.uniqueRecurring.Item1 == "healthRecurring")
+        {
+            StartCoroutine(UpdateRecurringValues(card));
+        }
 
         //. . .
         roundManager.RoundRestart();
+    }
+
+    public IEnumerator UpdateRecurringValues(Card card)
+    {
+        while (true)
+        {
+            playerCombat.TakeDamage(1);
+            yield return new WaitForSeconds(1);
+        }
     }
 }
 
@@ -77,11 +99,15 @@ public class Card
     public float health;            // IN PERCENTAGES!!!!!!
     public float enemyDamage;       // IN PERCENTAGES!!!!!!
     public float enemyAttackSpeed;  // IN PERCENTAGES!!!!!!
+    public float enemyWalkSpeed;    // IN PERCENTAGES!!!!!!
+    public float rangedAttackSpeed; // IN PERCENTAGES!!!!!!
     public float dashCooldown;      // IN PERCENTAGES!!!!!!
     public float dashDistance;      // IN PERCENTAGES!!!!!!
     public float walkSpeed;         // IN PERCENTAGES!!!!!!
 
-    public Card(string cardName, string cardColour, float cardCost, float weaponDamage, float weaponRange, float weaponSwingSpeed, float health, float enemyDamage, float enemyAttackSpeed, float dashCooldown, float dashDistance, float walkSpeed)
+    public (string, float) uniqueRecurring;
+
+    public Card(string cardName, string cardColour, float cardCost, float weaponDamage, float weaponRange, float weaponSwingSpeed, float health, float enemyDamage, float enemyAttackSpeed, float enemyWalkSpeed, float rangedAttackSpeed, float dashCooldown, float dashDistance, float walkSpeed, (string, float) uniqueRecurring)
     {
         this.cardName = cardName;
         this.cardColour = cardColour;
@@ -92,8 +118,11 @@ public class Card
         this.health = health;
         this.enemyDamage = enemyDamage;
         this.enemyAttackSpeed = enemyAttackSpeed;
+        this.enemyWalkSpeed = enemyWalkSpeed;
+        this.rangedAttackSpeed = rangedAttackSpeed;
         this.dashCooldown = dashCooldown;
         this.dashDistance = dashDistance;
         this.walkSpeed = walkSpeed;
+        this.uniqueRecurring = uniqueRecurring;
     }
 }
