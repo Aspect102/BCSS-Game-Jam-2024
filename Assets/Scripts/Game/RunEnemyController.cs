@@ -75,10 +75,12 @@ public class RunEnemyController : MonoBehaviour
 
     private IEnumerator AttackPlayer()
     {
+        Debug.Log("close enough");
         GameObject player = gameObject.GetComponent<OnCreationScript>().player;
         PlayerController playercontroller = player.GetComponent<PlayerController>();
         if (playercontroller.isGrounded)
         {
+            Debug.Log("hitting");
             PlayerCombat playerCombat = player.GetComponent<PlayerCombat>();
             playerCombat.TakeDamage(attackDamage);
             yield return new WaitForSeconds(attackSpeed);
