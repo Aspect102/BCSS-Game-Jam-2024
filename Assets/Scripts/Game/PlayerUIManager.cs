@@ -19,6 +19,7 @@ public class PlayerUIManager : MonoBehaviour
     private Vignette vignette;
     public GameObject player;
     PlayerController playerController;
+    public PlayerCombat playerCombat;
     public UpgradeController upgradeController;
 
     int maxDashCharges;
@@ -26,6 +27,9 @@ public class PlayerUIManager : MonoBehaviour
 
     public GameObject parent;
     public Image[] staminaDotsArray;
+
+    public GameObject healthDisplay;
+    TextMeshProUGUI healthText;
 
     public static bool gameIsPaused = false;
     public GameObject pauseMenuUI;
@@ -52,6 +56,9 @@ public class PlayerUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        healthText = healthDisplay.GetComponent<TextMeshProUGUI>();
+        healthText.text = playerCombat.playerMaxHealth.ToString();
+
         mainMenuButton.onClick.AddListener(MainMenuButtonClicked);
 
         playerController = player.GetComponent<PlayerController>();
@@ -77,6 +84,24 @@ public class PlayerUIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // health
+        float health = playerCombat.playerHealth;
+        float displayedHealth = float.Parse(healthText.text);
+
+        if (displayedHealth != health)
+        {
+            if (displayedHealth < health)
+            {
+                displayedHealth += 1;
+            }
+            else
+            {
+                displayedHealth -= 1;
+            }
+        }
+
+        healthText.text = displayedHealth.ToString();
+
         // dash ui
         dashCharges = playerController.dashCharges;
 

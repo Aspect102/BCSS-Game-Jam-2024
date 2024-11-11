@@ -118,9 +118,7 @@ public class SpawnManager : MonoBehaviour
         float percentageRanged = 0.125f;
         int numberOfRangedEnemies = (int)Math.Ceiling(enemyRoundCount * percentageRanged);
         int numberOfRunEnemies = enemyRoundCount - numberOfRangedEnemies;
-
-        Debug.Log("run enemies:" + numberOfRunEnemies);
-        Debug.Log("ranged enemies:" + numberOfRangedEnemies);
+        
 
         for (int i = 0; i < numberOfRunEnemies; i++)
         {
