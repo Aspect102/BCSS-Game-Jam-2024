@@ -20,12 +20,12 @@ public class UpgradeController : MonoBehaviour
 
     private void Awake()
     {
-        brawlerCard = new Card("brawler", "orange", 10f, 0.1f, 0.05f, -0.1f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,("", 0f));
-        fastHandsCard = new Card("fastHands", "orange", 10f, -0.05f, 0f, 0.1f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,("", 0f));
+        brawlerCard = new Card("brawler", "orange", 5f, 0.1f, 0.05f, -0.1f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,("", 0f));
+        fastHandsCard = new Card("fastHands", "orange", 5f, -0.05f, 0f, 0.1f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,("", 0f));
         sprinterCard = new Card("sprinter", "blue", 5f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, -0.05f, 0f, 0.05f,("", 0f));
         healerCard = new Card("medic", "green", 5f, 0f, 0f, 0f, 0.05f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,("", 0f));
-        doctorOfDeathCard = new Card("doctorofdeath", "green", 15f, 0.20f, 0.15f, 0.20f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,("healthRecurring", -0.01f));
-        tankCard = new Card("tank", "orange", 15f, 0.1f, -0.2f, -0.2f, 1f, 0f, 0f, 0f, 0f, 0f, 0f, -0.2f, ("", 0f));
+        doctorOfDeathCard = new Card("doctorofdeath", "green", 10f, 0.20f, 0.15f, 0.20f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,("healthRecurring", -0.01f));
+        tankCard = new Card("tank", "orange", 10f, 0.1f, -0.2f, -0.2f, 1f, 0f, 0f, 0f, 0f, 0f, 0f, -0.2f, ("", 0f));
         manipulatorCard = new Card("manipulator", "purple", 10f, 0f, 0f, 0f, -0.05f, -0.1f, 0f, 0f, -0.1f, 0f, 0f, 0f, ("", 0f));
         atrainCard = new Card("atrain", "blue", 10f, -0.05f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, -0.15f, 0.1f, 0.3f, ("", 0f));
 
