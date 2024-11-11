@@ -24,6 +24,10 @@ public struct GameObjBool
 
 public class SpawnManager : MonoBehaviour
 {
+    // total kills so far and counter to sum enemy spawns of each round
+    public PlayerCombat playerCombat;
+    int totalSpawnsSinceStart = 0;
+
     public RoundManager roundManager;
     public PlayerUIManager playerUIManager;
     public GameObject runEnemyPrefab;
@@ -37,7 +41,7 @@ public class SpawnManager : MonoBehaviour
 
     public float MinSpawnDelay; // measured in seconds
     public float MaxSpawnDelay;
-    public int canSpawnDetectionRadius = 10;
+    public int canSpawnDetectionRadius;
 
     private (float, float) xRange; //tuple that stores the lower bound to the upper bound
     private (float, float) zRange;
@@ -109,6 +113,8 @@ public class SpawnManager : MonoBehaviour
 
     public IEnumerator StartSpawning(int enemyRoundCount)
     {
+        totalSpawnsSinceStart += enemyRoundCount;
+
         float percentageRanged = 0.125f;
         int numberOfRangedEnemies = (int)Math.Ceiling(enemyRoundCount * percentageRanged);
         int numberOfRunEnemies = enemyRoundCount - numberOfRangedEnemies;
@@ -128,7 +134,7 @@ public class SpawnManager : MonoBehaviour
                 SetPrefabProperties(materials, newEnemy);
             };
 
-            yield return new WaitForSeconds(Random.Range(MinSpawnDelay, MaxSpawnDelay));
+            yield return new WaitForSeconds(Random.Range(MinSpawnDelay / 4f, MaxSpawnDelay / 4f));
             enemyRoundCount--;
             roundManager.enemyLeftToSpawn--;
         }
@@ -162,8 +168,10 @@ public class SpawnManager : MonoBehaviour
 
         while (true)
         {
-            if (!GameObject.FindGameObjectWithTag("Enemy"))
+            // player has killed all enemies that have spawned
+            if (playerCombat.kills == totalSpawnsSinceStart) // !GameObject.FindGameObjectWithTag("Enemy")
             {
+                yield return new WaitForSeconds(0.75f);
                 playerUIManager.ShowCards();
                 yield break;
             }

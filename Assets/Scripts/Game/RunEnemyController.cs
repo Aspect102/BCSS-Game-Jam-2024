@@ -9,11 +9,9 @@ public class RunEnemyController : MonoBehaviour
     public LayerMask groundLayer, playerLayer;
 
     public static float attackSpeed = 1.5f; // time between attacks
-    public static float attackDamage = 20;
-    // bool alreadyAttacked = false;
+    public static float attackDamage = 15;
 
     public float attackRange;
-    bool playerInRange;
 
     Animator animator;
     public const string RUN = "stickman run";
@@ -81,11 +79,9 @@ public class RunEnemyController : MonoBehaviour
         PlayerController playercontroller = player.GetComponent<PlayerController>();
         if (playercontroller.isGrounded)
         {
-            // alreadyAttacked = true;
             PlayerCombat playerCombat = player.GetComponent<PlayerCombat>();
             playerCombat.TakeDamage(attackDamage);
             yield return new WaitForSeconds(attackSpeed);
-            // alreadyAttacked = false;
         } 
     }
 

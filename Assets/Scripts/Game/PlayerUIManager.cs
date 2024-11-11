@@ -150,6 +150,7 @@ public class PlayerUIManager : MonoBehaviour
         Cursor.visible = true;
     }
 
+
     public void UpdateEnemyKilledIcons(GameObject gameobject)
     {
 
@@ -172,12 +173,15 @@ public class PlayerUIManager : MonoBehaviour
                 break;
         }
     }
+
+
     void MainMenuButtonClicked()
     {
         gameIsPaused = false;
         Time.timeScale = 1f;
         SceneManager.LoadSceneAsync("Main Menu", LoadSceneMode.Single); //IMPORTANT NOTE: THIS MEANS ONLY ONE SCENE AT A TIME!
     }
+
 
     public void ShowCards()
     {
@@ -198,6 +202,8 @@ public class PlayerUIManager : MonoBehaviour
         Cursor.visible = true; 
     }
 
+
+
     public void CardClicked(GameObject cardObj)
     {
         upgradeController.ApplyCardProperties(upgradeController.cards.Find(c => c.cardName == cardObj.name));
@@ -205,6 +211,7 @@ public class PlayerUIManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
+
 
     void HideCards()
     {
@@ -214,6 +221,7 @@ public class PlayerUIManager : MonoBehaviour
             card.GetComponent<RectTransform>().anchoredPosition = new Vector2(1000, 100); // far away
         }
     }
+
 
     public void VignetteCheck(float playerHealth, float maxHealth)
     {

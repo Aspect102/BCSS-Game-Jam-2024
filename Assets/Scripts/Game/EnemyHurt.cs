@@ -78,6 +78,7 @@ public class EnemyHurt : MonoBehaviour
 
     void Death()
     {
+        
         playerUImanager = GameObject.FindWithTag("ServerScripts").GetComponent<PlayerUIManager>();
         playerUImanager.UpdateEnemyKilledIcons(gameObject);
         playerCombat = GameObject.FindWithTag("Player").GetComponent<PlayerCombat>();
