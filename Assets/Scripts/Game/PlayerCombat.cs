@@ -6,6 +6,7 @@ public class PlayerCombat : MonoBehaviour
 {
     public Camera cam;
     public RoundManager roundManager;
+    public PlayerUIManager playerUIManager;
 
     public float playerHealth;
     public float playerMaxHealth;
@@ -49,7 +50,7 @@ public class PlayerCombat : MonoBehaviour
     {
         var newHealth = playerHealth - amount;
         playerHealth = Mathf.Clamp(newHealth, 0, playerMaxHealth);
-        PlayerUIManager.VignetteCheck(playerHealth, playerMaxHealth);
+        playerUIManager.VignetteCheck(playerHealth, playerMaxHealth);
 
         if (playerHealth == 0)
         {
@@ -73,7 +74,7 @@ public class PlayerCombat : MonoBehaviour
         // audioSource.pitch = Random.Range(0.9f, 1.1f);
         // audioSource.PlayOneShot(swordSwing);
 
-        if(attackCount == 0)
+        if (attackCount == 0)
         {
             ChangeAnimationState(SWING1);
             attackCount++;

@@ -103,7 +103,6 @@ public class RunEnemyController : MonoBehaviour
         animator.CrossFadeInFixedTime(currentAnimationState, 0.3f);
         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
         {
-            Debug.Log("hello I am here");
             StartCoroutine(AttackPlayer());
         }
     }

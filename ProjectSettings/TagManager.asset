@@ -12,6 +12,7 @@ TagManager:
   - KilledText
   - RoundText
   - Card
+  - VignetteControl
   layers:
   - Default
   - TransparentFX

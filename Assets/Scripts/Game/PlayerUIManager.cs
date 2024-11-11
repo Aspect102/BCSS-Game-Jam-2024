@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -12,7 +15,8 @@ public class PlayerUIManager : MonoBehaviour
 {
     // IN MAIN MENU SCENE, OPTIONS SLIDERS ARE MANAGED BY OptionsManager SCRIPT
 
-    public float[] vignetteStages = new float[4];
+    private PostProcessVolume volume;
+    private Vignette vignette;
     public GameObject player;
     PlayerController playerController;
     public UpgradeController upgradeController;
@@ -211,8 +215,36 @@ public class PlayerUIManager : MonoBehaviour
         }
     }
 
-    public static void VignetteCheck(float playerHealth, float maxHealth)
+    public void VignetteCheck(float playerHealth, float maxHealth)
     {
-        
+        float[] healthStages = { maxHealth / 5, 2 * maxHealth / 5, 3 * maxHealth / 5, 4 * maxHealth / 5, maxHealth};
+        volume = GameObject.FindGameObjectWithTag("VignetteControl").GetComponent<PostProcessVolume>();
+        volume.profile.TryGetSettings<Vignette>(out vignette);
+        float[] vignetteStages = { 0f, 0.125f, 0.25f, 0.375f, 0.5f };
+
+        if (playerHealth <= healthStages[0])
+        {
+            vignette.intensity.Override(vignetteStages[4]);
+        }
+        else if (playerHealth <= healthStages[1])
+        {
+            vignette.intensity.Override(vignetteStages[3]);
+        }
+        else if (playerHealth <= healthStages[2])
+        {
+            vignette.intensity.Override(vignetteStages[2]);
+        }
+        else if (playerHealth <= healthStages[3])
+        {
+            vignette.intensity.Override(vignetteStages[1]);
+        }
+        else if (playerHealth <= healthStages[4])
+        {
+            vignette.intensity.Override(vignetteStages[0]);
+        }
+        else if (playerHealth <= healthStages[5])
+        {
+            vignette.intensity.Override(vignetteStages[0]);
+        }
     }
 }
