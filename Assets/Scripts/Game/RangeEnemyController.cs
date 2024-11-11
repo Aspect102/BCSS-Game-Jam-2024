@@ -4,8 +4,10 @@ using UnityEngine.AI;
 
 public class RangeEnemyController : MonoBehaviour
 {
-    public Transform playerTransform;
+    Transform playerTransform;
+    EnemyHurt enemyHurt;
 
+    public float health = 1;
     public float minAttackSpeed;
     public float maxAttackSpeed; // time between attacks
     public Transform spawnPoint;
@@ -21,7 +23,8 @@ public class RangeEnemyController : MonoBehaviour
     {
         playerTransform = GameObject.FindWithTag("Player").transform;
         spawnPoint = transform.Find("SpawnPoint");
-
+    
+        enemyHurt = gameObject.GetComponent<EnemyHurt>();
         animator = GetComponentInChildren<Animator>();
     }
 
@@ -33,14 +36,14 @@ public class RangeEnemyController : MonoBehaviour
 
     private void Update()
     {
+        health = enemyHurt.currentHealth;
         transform.LookAt(new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z));
-
     }
 
 
     private IEnumerator AttackPlayer()
     {
-        while (true)
+        while (health > 0)
         {
             GameObject prefab = Instantiate(bulletPrefab, spawnPoint.position, Quaternion.identity);
             Material enemyMaterial = transform.Find("body").GetComponent<SkinnedMeshRenderer>().material; 

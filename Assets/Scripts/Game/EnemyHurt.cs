@@ -10,7 +10,7 @@ public class EnemyHurt : MonoBehaviour
     public PlayerUIManager playerUImanager;
     public PlayerCombat playerCombat;
 
-    private float currentHealth;
+    public float currentHealth;
     public int maxHealth;
     public float knockbackForce;
     public float timeTillCorpseCleanup;

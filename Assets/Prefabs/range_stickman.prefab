@@ -1450,6 +1450,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   playerUImanager: {fileID: 0}
   playerCombat: {fileID: 0}
+  currentHealth: 1
   maxHealth: 1
   knockbackForce: 125
   timeTillCorpseCleanup: 3
@@ -1480,7 +1481,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 133010d507ae7f44f81d0798ee703a12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 0}
   minAttackSpeed: 2
   maxAttackSpeed: 3
   spawnPoint: {fileID: 0}
