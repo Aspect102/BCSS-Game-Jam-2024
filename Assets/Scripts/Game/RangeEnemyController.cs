@@ -8,8 +8,8 @@ public class RangeEnemyController : MonoBehaviour
     EnemyHurt enemyHurt;
 
     public float health = 1;
-    public float minAttackSpeed;
-    public float maxAttackSpeed; // time between attacks
+    public static float minAttackSpeed = 2;
+    public static float maxAttackSpeed = 3; // time between attacks
     public Transform spawnPoint;
     public GameObject bulletPrefab;
 

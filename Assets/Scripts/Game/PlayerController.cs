@@ -53,9 +53,6 @@ public class PlayerController : MonoBehaviour
 
         characterController = GetComponent<CharacterController>();
 
-        activeSensX = sensX;
-        activeSensY = sensY;
-
         dashCooldown = maxDashCooldown; // time to recharge 1 dash charge (decreases over time, restores 1 charge when less than 0 and dashCharges less than 2)
         dashCharges = maxDashCharges; // amount of consecutive dashes available
 
