@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,7 @@ public class MainMenuController : MonoBehaviour
     public Button PlayButton;
     public Button OptionsButton;
     public Button QuitButton;
+    public Button TutorialButton;
 
     public GameObject optionsPanel;
     bool showingOptions = false;
@@ -18,6 +20,7 @@ public class MainMenuController : MonoBehaviour
         PlayButton.onClick.AddListener(PlayButtonClicked);
         OptionsButton.onClick.AddListener(OptionsButtonClicked);
         QuitButton.onClick.AddListener(QuitCoroutineStarter);
+        TutorialButton.onClick.AddListener(TutorialClicked);
     }
 
     void Start()
@@ -47,6 +50,10 @@ public class MainMenuController : MonoBehaviour
         
     }
 
+    void TutorialClicked()
+    {
+        SceneManager.LoadSceneAsync("Tutorial", LoadSceneMode.Single);
+    }
 
     void QuitCoroutineStarter()
     {

@@ -66,7 +66,7 @@ public class SpawnManager : MonoBehaviour
     }
     
 
-    void SetPrefabProperties(Material[] materials, GameObject prefab)
+    public static void SetPrefabProperties(Material[] materials, GameObject prefab)
     {
         #region Assign new random material
 

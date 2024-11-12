@@ -40,7 +40,7 @@ public class EnemyHurt : MonoBehaviour
         }
     }
 
-    private void EnableRagdoll()
+    public void EnableRagdoll()
     {
         // deactivate pathfinding, animations and scripts
         if (transform.TryGetComponent<NavMeshAgent>(out NavMeshAgent navMeshAgent))
