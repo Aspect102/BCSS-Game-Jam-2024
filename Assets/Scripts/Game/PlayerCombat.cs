@@ -45,6 +45,7 @@ public class PlayerCombat : MonoBehaviour
         }
     }
     
+
     public void TakeDamage(float amount)
     {
         if (!damageBufferActive || amount < 0) // only deal damage if buffer not active and amount is negative (healing)
@@ -71,6 +72,11 @@ public class PlayerCombat : MonoBehaviour
         yield break;
     } 
 
+
+    public void ResetHealth()
+    {
+        playerHealth = playerMaxHealth;
+    }
 
     public void Attack()
     {

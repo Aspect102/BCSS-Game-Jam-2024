@@ -91,7 +91,7 @@ public class PlayerUIManager : MonoBehaviour
         float health = playerCombat.playerHealth;
         float displayedHealth = float.Parse(healthText.text);
 
-        if (displayedHealth != health)
+        if (Mathf.Round(displayedHealth) != Mathf.Round(health))
         {
             if (displayedHealth < health)
             {

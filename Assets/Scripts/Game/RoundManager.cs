@@ -134,6 +134,8 @@ public class RoundManager : MonoBehaviour
 
     public void RoundRestart()
     {
+        playerCombat.ResetHealth();
+        
         timeRemaining = roundLength;
         currentRound++;
         RoundCountUpdate(out enemyRoundCount);
