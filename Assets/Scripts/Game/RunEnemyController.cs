@@ -75,19 +75,20 @@ public class RunEnemyController : MonoBehaviour
 
     private IEnumerator AttackPlayer()
     {
-        GameObject player = gameObject.GetComponent<OnCreationScript>().player;
-        PlayerController playercontroller = player.GetComponent<PlayerController>();
-        if (playercontroller.isGrounded)
-        {
-            PlayerCombat playerCombat = player.GetComponent<PlayerCombat>();
-            playerCombat.TakeDamage(attackDamage);
-            yield return new WaitForSeconds(attackSpeed);
-        } 
+            GameObject player = gameObject.GetComponent<OnCreationScript>().player;
+            PlayerController playercontroller = player.GetComponent<PlayerController>();
+            if (playercontroller.isGrounded)
+            {
+                PlayerCombat playerCombat = player.GetComponent<PlayerCombat>();
+                playerCombat.TakeDamage(attackDamage);
+                yield return new WaitForSeconds(attackSpeed);
+            }
     }
 
     public void ChangeAnimationState(string newState)
     {
         // STOP THE SAME ANIMATION FROM INTERRUPTING WITH ITSELF //
+
         if (currentAnimationState == newState)
         {
             return;
@@ -97,10 +98,6 @@ public class RunEnemyController : MonoBehaviour
 
         currentAnimationState = newState;
         animator.CrossFadeInFixedTime(currentAnimationState, 0.3f);
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
-        {
-            StartCoroutine(AttackPlayer());
-        }
     }
 
 

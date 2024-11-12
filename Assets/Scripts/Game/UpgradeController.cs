@@ -14,20 +14,27 @@ public class UpgradeController : MonoBehaviour
     public PlayerController playerController;
 
     public GameObject player;
-    private Card brawlerCard, fastHandsCard, sprinterCard, healerCard, doctorOfDeathCard, tankCard, manipulatorCard, atrainCard;
+    private Card brawlerCard, fastHandsCard, sprinterCard, healerCard, doctorOfDeathCard, tankCard, manipulatorCard, atrainCard, hardModeCard;
     public List<Card> playerCards = new List<Card>();
     public List<Card> cards = new List<Card>();
 
     private void Awake()
     {
+        PlayerCombat.attackDamage = 1;
+        RunEnemyController.attackDamage = 15;
+        RunEnemyController.attackSpeed = 1.5f;
+        RangeEnemyController.minAttackSpeed = 2;
+        RangeEnemyController.maxAttackSpeed = 3;
+
         brawlerCard = new Card("brawler", "orange", 5f, 0.1f, 0.05f, -0.1f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,("", 0f));
         fastHandsCard = new Card("fastHands", "orange", 5f, -0.05f, 0f, 0.1f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,("", 0f));
         sprinterCard = new Card("sprinter", "blue", 5f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, -0.05f, 0f, 0.05f,("", 0f));
         healerCard = new Card("medic", "green", 5f, 0f, 0f, 0f, 0.05f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,("", 0f));
-        doctorOfDeathCard = new Card("doctorofdeath", "green", 10f, 0.20f, 0.15f, 0.20f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,("healthRecurring", -0.01f));
+        doctorOfDeathCard = new Card("doctorofdeath", "green", 10f, 0.20f, 0.15f, 0.20f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f,("healthRecurringNegative", -0.01f));
         tankCard = new Card("tank", "orange", 10f, 0.1f, -0.2f, -0.2f, 1f, 0f, 0f, 0f, 0f, 0f, 0f, -0.2f, ("", 0f));
         manipulatorCard = new Card("manipulator", "purple", 10f, 0f, 0f, 0f, -0.05f, -0.1f, 0f, 0f, -0.1f, 0f, 0f, 0f, ("", 0f));
         atrainCard = new Card("atrain", "blue", 10f, -0.05f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, -0.15f, 0.1f, 0.3f, ("", 0f));
+        hardModeCard = new Card("hardmode", "orange", 0f, -0.5f, -0.5f, -0.5f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, ("healthRecurringNegative", -0.01f));
 
         cards.Add(brawlerCard);
         cards.Add(fastHandsCard);
@@ -37,6 +44,7 @@ public class UpgradeController : MonoBehaviour
         cards.Add(tankCard);
         cards.Add(manipulatorCard);
         cards.Add(atrainCard);
+        cards.Add(hardModeCard);
     }
 
     enum lol
@@ -69,7 +77,7 @@ public class UpgradeController : MonoBehaviour
         playerController.dashSpeed *= card.dashDistance + 1;
         playerController.playerSpeed *= card.walkSpeed + 1;
 
-        if (card.uniqueRecurring.Item1 == "healthRecurring")
+        if (card.uniqueRecurring.Item1 != "")
         {
             StartCoroutine(UpdateRecurringValues(card));
         }
@@ -80,10 +88,13 @@ public class UpgradeController : MonoBehaviour
 
     public IEnumerator UpdateRecurringValues(Card card)
     {
-        while (true)
+        if (card.uniqueRecurring.Item1 == "healthRecurringNegative")
         {
-            playerCombat.TakeDamage(1);
-            yield return new WaitForSeconds(1);
+            while (true)
+            {
+                playerCombat.TakeDamage(1);
+                yield return new WaitForSeconds(1);
+            }
         }
     }
 }
