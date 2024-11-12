@@ -8,6 +8,8 @@ using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
+    public PlayerCombat playerCombat;
+
     // cam controls
     public float sensX = 800f; // fixed value for sensitivity
     public float sensY = 800f;
@@ -30,18 +32,20 @@ public class PlayerController : MonoBehaviour
 
     public GameObject playerBody;
     public float playerSpeed = 20f;
-    public float jumpHeight = 7f;
+    public float jumpHeight = 8.5f;
     Vector3 velocity;
     public float gravity = -60f;
 
     public float dashSpeed = 15f;
     public float dashTime = 0.08f;
-    public float maxDashCooldown = 0.9f;
+    public float maxDashCooldown = 0.8f;
     float dashCooldown;
     public int maxDashCharges = 2;
     public int dashCharges;
 
     public float slamSpeed = 200f;
+    public float maxSlamCooldown = 1f;
+    public float slamCooldown;
 
 
 
@@ -55,6 +59,8 @@ public class PlayerController : MonoBehaviour
 
         dashCooldown = maxDashCooldown; // time to recharge 1 dash charge (decreases over time, restores 1 charge when less than 0 and dashCharges less than 2)
         dashCharges = maxDashCharges; // amount of consecutive dashes available
+
+        slamCooldown = maxSlamCooldown;
 
         setOptionMultipliers();
     }
@@ -126,9 +132,13 @@ public class PlayerController : MonoBehaviour
 
 
         // Slam
-        if (Input.GetKeyDown(KeyCode.LeftControl) && !isGrounded)
+        slamCooldown -= Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.LeftControl) && !isGrounded && slamCooldown < 0)
         {
+            slamCooldown = maxSlamCooldown;
             StartCoroutine(Slam());
+            StartCoroutine(playerCombat.checkEnemyBeneathSlam());
         }
 
         // if (!characterController.isGrounded)

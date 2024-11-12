@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
+    public PlayerController playerController;
+
     public Camera cam;
     public RoundManager roundManager;
     public PlayerUIManager playerUIManager;
@@ -24,6 +26,8 @@ public class PlayerCombat : MonoBehaviour
     bool readyToAttack = true;
     int attackCount;
 
+    bool isGrounded;
+
     Animator animator;
     public const string SWING1 = "mop swing 1";
     public const string SWING2 = "mop swing 2";
@@ -38,6 +42,8 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        isGrounded = playerController.isGrounded;
+
         // Repeat Inputs
         if(Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse0))
         { 
@@ -77,6 +83,7 @@ public class PlayerCombat : MonoBehaviour
     {
         playerHealth = playerMaxHealth;
     }
+
 
     public void Attack()
     {
@@ -126,6 +133,35 @@ public class PlayerCombat : MonoBehaviour
             }
         } 
     }
+
+
+    public IEnumerator checkEnemyBeneathSlam()
+    {
+        Transform groundCheck = playerController.groundCheck;
+        while(!isGrounded)
+        {
+            // Debug.Log("trying");
+            // if(Physics.Raycast(groundCheck.position, -Vector3.up, out RaycastHit hit, 5f, enemyLayer))
+            // {
+            //     Debug.Log("hits");
+            //     if(hit.transform.TryGetComponent<EnemyHurt>(out EnemyHurt enemyHurt))
+            //     { 
+            //         enemyHurt.TakeDamage(attackDamage);
+            //     }
+            // }
+
+            Collider[] hitColliders = Physics.OverlapSphere(groundCheck.position, playerController.groundDistance + 1, enemyLayer); // ground check
+
+            foreach (var hitCollider in hitColliders)
+            {
+                hitCollider.transform.TryGetComponent<EnemyHurt>(out EnemyHurt enemyHurt);
+                enemyHurt.TakeDamage(attackDamage);
+            }
+
+            yield return null;
+        } 
+    }
+    
 
 
     // void HitTarget(Vector3 pos)

@@ -23,8 +23,11 @@ public class PlayerUIManager : MonoBehaviour
     int maxDashCharges;
     int dashCharges;
 
+    float slamCooldown;
+
     public GameObject parent;
     public Image[] staminaDotsArray;
+    public Image slamImage;
 
     public GameObject healthDisplay;
     TextMeshProUGUI healthText;
@@ -111,19 +114,32 @@ public class PlayerUIManager : MonoBehaviour
         for (int i = 0; i < maxDashCharges; i++)
         {
             Image image = staminaDotsArray[i];
-            float alpha;
+            float alpha1;
 
             if (dashCharges < (maxDashCharges - i))
             {
-                alpha = 0.5f;
+                alpha1 = 0.5f;
             }
             else
             {
-                alpha = 1f;
+                alpha1 = 1f;
             }
 
-            image.color = new Color(image.color.r, image.color.g, image.color.b, alpha);
+            image.color = new Color(image.color.r, image.color.g, image.color.b, alpha1);
         }
+
+        // slam ui
+        slamCooldown = playerController.slamCooldown;
+        float alpha2 = 0;
+        if (slamCooldown < 0)
+        {
+            alpha2 = 1f;
+        }
+        else
+        {
+            alpha2 = 0.5f;
+        }
+        slamImage.color = new Color(slamImage.color.r, slamImage.color.g, slamImage.color.b, alpha2);
 
         // options menu
         if (Input.GetKeyDown(KeyCode.Escape))

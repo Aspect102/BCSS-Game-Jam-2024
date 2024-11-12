@@ -8312,6 +8312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 517f67f456dac4f49919790233d5b850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCombat: {fileID: 683027191}
   sensX: 800
   sensY: 800
   playerCam: {fileID: 963194227}
@@ -8323,7 +8324,7 @@ MonoBehaviour:
   isGrounded: 0
   playerBody: {fileID: 1603717946}
   playerSpeed: 20
-  jumpHeight: 7
+  jumpHeight: 8.5
   gravity: -60
   dashSpeed: 15
   dashTime: 0.08
@@ -8331,6 +8332,8 @@ MonoBehaviour:
   maxDashCharges: 2
   dashCharges: 0
   slamSpeed: 200
+  maxSlamCooldown: 1
+  slamCooldown: 0
 --- !u!114 &683027191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8343,6 +8346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41cf017223da57d4199d7084967d72f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 683027190}
   cam: {fileID: 963194227}
   roundManager: {fileID: 1167996221}
   playerUIManager: {fileID: 1167996223}
@@ -8356,7 +8360,7 @@ MonoBehaviour:
   attackSpeed: 0.5
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 320
+    m_Bits: 256
 --- !u!1 &693390580
 GameObject:
   m_ObjectHideFlags: 0
@@ -9811,6 +9815,81 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 769821134}
+  m_CullTransparentMesh: 1
+--- !u!1 &771673897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 771673898}
+  - component: {fileID: 771673900}
+  - component: {fileID: 771673899}
+  m_Layer: 5
+  m_Name: Slam
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &771673898
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771673897}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.8999949, y: 0.8999949, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1969906917}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -885, y: -310}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &771673899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771673897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.24056602, g: 0.24056602, b: 0.24056602, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 9cd31038408deaa4c8c59a6e38a22f85, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &771673900
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771673897}
   m_CullTransparentMesh: 1
 --- !u!1 &776846272
 GameObject:
@@ -20826,6 +20905,7 @@ MonoBehaviour:
   mixer: {fileID: 24100000, guid: 32961509e8336624da6f22e67ca70239, type: 2}
   parent: {fileID: 1683073874}
   staminaDotsArray: []
+  slamImage: {fileID: 771673899}
   healthDisplay: {fileID: 3879008}
   pauseMenuUI: {fileID: 585235679}
   mainMenuButton: {fileID: 1703287692}
@@ -33086,6 +33166,7 @@ RectTransform:
   - {fileID: 585235680}
   - {fileID: 1955909420}
   - {fileID: 822889686}
+  - {fileID: 771673898}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
