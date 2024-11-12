@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     public int dashCharges;
 
     public float slamSpeed = 200f;
-    public float maxSlamCooldown = 1f;
+    public float maxSlamCooldown = 2f;
     public float slamCooldown;
 
 

@@ -32,7 +32,7 @@ public class ParticleDetection : MonoBehaviour
     {
         if (sceneName == "Game")
         {
-            player.GetComponent<PlayerCombat>().TakeDamage(-0.5f);
+            player.GetComponent<PlayerCombat>().TakeDamage(-0.35f);
         }
     }
 }

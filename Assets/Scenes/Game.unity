@@ -8332,7 +8332,7 @@ MonoBehaviour:
   maxDashCharges: 2
   dashCharges: 0
   slamSpeed: 200
-  maxSlamCooldown: 1
+  maxSlamCooldown: 2
   slamCooldown: 0
 --- !u!114 &683027191
 MonoBehaviour:
@@ -20844,7 +20844,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 310ea798e8a02a64299c9c69a55b5ce5, type: 2}
   - {fileID: 2100000, guid: 2a53297ea68ea87468fab89435b0dfea, type: 2}
   MinSpawnDelay: 0
-  MaxSpawnDelay: 2
+  MaxSpawnDelay: 1
   canSpawnDetectionRadius: 5
 --- !u!114 &1167996221
 MonoBehaviour:
