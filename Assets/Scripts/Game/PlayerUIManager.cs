@@ -37,6 +37,8 @@ public class PlayerUIManager : MonoBehaviour
     public Slider musicSlider;
     public Slider sensSlider;
 
+    private float sensitivity = 1f;
+
     public GameObject gameOverPanel;
 
     public TextMeshProUGUI[] colourCounters = new TextMeshProUGUI[4]; // blue orange purple green
@@ -167,6 +169,8 @@ public class PlayerUIManager : MonoBehaviour
     public void SetSens(float sens) // sens set in PlayerController script
     {
         OptionsManager.sensMultiplier = sens;
+        sensitivity = sens; // set sensitivity to value of sens slider to be referenced by ShowCards() and CardClicked()
+
         playerController.setOptionMultipliers();
     }
 
@@ -246,6 +250,9 @@ public class PlayerUIManager : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true; 
+
+        OptionsManager.sensMultiplier = 0f; // set sens to 0 to stop rotation during card selection
+        playerController.setOptionMultipliers();
     }
 
 
@@ -253,8 +260,12 @@ public class PlayerUIManager : MonoBehaviour
     {
         upgradeController.ApplyCardProperties(upgradeController.cards.Find(c => c.cardName == cardObj.name));
         HideCards();
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        OptionsManager.sensMultiplier = sensitivity; // reset sens to allow rotation after card selection 
+        playerController.setOptionMultipliers();
     }
 
 
