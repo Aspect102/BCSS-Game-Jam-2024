@@ -127,7 +127,7 @@ public class SpawnManager : MonoBehaviour
                 SetPrefabProperties(materials, newEnemy);
             };
 
-            yield return new WaitForSeconds(Random.Range(MinSpawnDelay / 4f, MaxSpawnDelay / 4f));
+            yield return new WaitForSeconds(Random.Range(MinSpawnDelay, MaxSpawnDelay));
             enemyRoundCount--;
             roundManager.enemyLeftToSpawn--;
         }

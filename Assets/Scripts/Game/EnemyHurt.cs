@@ -17,13 +17,17 @@ public class EnemyHurt : MonoBehaviour
 
     private Rigidbody[] _ragdollRigidbodies;
 
+    public Transform audioContainer;
+
     void Awake()
     {
         currentHealth = maxHealth;
 
         // taken from OnCreationScript because prefabs cant reference the camera on their own
         cam = transform.GetComponent<OnCreationScript>().cam;
-        
+
+        audioContainer = transform.Find("AudioContainer");
+
         _ragdollRigidbodies = transform.Find("Hips").GetComponentsInChildren<Rigidbody>();
         DisableRagdoll();
     }
@@ -78,6 +82,24 @@ public class EnemyHurt : MonoBehaviour
 
     void Death()
     {
+        switch (gameObject.GetComponent<CustomTags>().colourString)
+        {
+            case ("blue mat"):
+                audioContainer.transform.Find("crash1").GetComponent<AudioSource>().enabled = true;
+                break;
+            case ("orange mat"):
+                audioContainer.transform.Find("crash2").GetComponent<AudioSource>().enabled = true;
+                break;
+            case ("purple mat"):
+                audioContainer.transform.Find("crash3").GetComponent<AudioSource>().enabled = true;
+                break;
+            case ("green mat"):
+                audioContainer.transform.Find("crash4").GetComponent<AudioSource>().enabled = true;
+                break;
+            default:
+                Debug.Log("shart alert");
+                break;
+        }
         
         playerUImanager = GameObject.FindWithTag("ServerScripts").GetComponent<PlayerUIManager>();
         playerUImanager.UpdateEnemyKilledIcons(gameObject);

@@ -14,7 +14,7 @@ public class PlayerCombat : MonoBehaviour
     public float attackDistance = 18f;
     public float attackDelay = 0.1f; // time between attack and sending out ray
     public float attackSpeed = 0.5f; // time between attacks
-    public static float attackDamage = 1;
+    public static float attackDamage = 1f;
     public LayerMask enemyLayer;
 
     // public GameObject hitEffect;
