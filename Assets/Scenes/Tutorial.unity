@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 97968012}
   - component: {fileID: 97968011}
   - component: {fileID: 97968010}
-  - component: {fileID: 97968009}
+  - component: {fileID: 97968013}
   m_Layer: 7
   m_Name: Character
   m_TagString: Player
@@ -386,30 +386,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &97968009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 97968008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41cf017223da57d4199d7084967d72f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 1464464759}
-  roundManager: {fileID: 0}
-  playerUIManager: {fileID: 0}
-  playerHealth: 100
-  playerMaxHealth: 100
-  kills: 0
-  attackDistance: 16
-  attackDelay: 0.1
-  attackSpeed: 0.5
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 320
 --- !u!114 &97968010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,6 +461,25 @@ Transform:
   - {fileID: 1536498705}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &97968013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97968008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20d1d9337bdc21847988a58aecf8209b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 1464464759}
+  attackDistance: 18
+  attackDelay: 0.1
+  attackSpeed: 0.5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &104167625
 GameObject:
   m_ObjectHideFlags: 0
@@ -2537,7 +2532,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4282795590
-  m_fontColor: {r: 0.4056604, g: 0.4056604, b: 0.4056604, a: 1}
+  m_fontColor: {r: 0.21226418, g: 0.21226418, b: 0.21226418, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -17798,7 +17793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TutorialText: {fileID: 387399817}
-  enemyPrefab: {fileID: 2637622954208964574, guid: acc93caf819fe904fadb3243ccabc378, type: 3}
+  enemyPrefab: {fileID: 6480738106183833601, guid: 58a477b005337344b9c3bc4d6eeb5251, type: 3}
   player: {fileID: 97968008}
   materials:
   - {fileID: 2100000, guid: d7c8e9c2f2a1bf246afcf2f13bf9ce14, type: 2}

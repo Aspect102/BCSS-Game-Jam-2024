@@ -2,18 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCombat : MonoBehaviour
+public class TutorialPlayerCombat : MonoBehaviour
 {
     public Camera cam;
-    public RoundManager roundManager;
-    public PlayerUIManager playerUIManager;
 
-    public float playerHealth;
-    public float playerMaxHealth;
-    public bool damageBufferActive = false;
-    public float bufferResetTime;
-
-    public int kills;
     public float attackDistance = 18f;
     public float attackDelay = 0.1f; // time between attack and sending out ray
     public float attackSpeed = 0.5f; // time between attacks
@@ -28,6 +20,7 @@ public class PlayerCombat : MonoBehaviour
     public const string SWING1 = "mop swing 1";
     public const string SWING2 = "mop swing 2";
     string currentAnimationState;
+
 
     void Awake()
     { 
@@ -44,32 +37,6 @@ public class PlayerCombat : MonoBehaviour
             Attack(); 
         }
     }
-    
-    public void TakeDamage(float amount)
-    {
-        if (!damageBufferActive || amount < 0) // only deal damage if buffer not active and amount is negative (healing)
-        {
-            damageBufferActive = true;
-            StartCoroutine(ResetDamageBuffer());
-
-            var newHealth = playerHealth - amount;
-            playerHealth = Mathf.Clamp(newHealth, 0, playerMaxHealth);
-            playerUIManager.VignetteCheck(playerHealth, playerMaxHealth);
-
-            if (playerHealth == 0)
-            {
-                roundManager.RoundFail();
-            }
-        }
-    }
-
-
-    public IEnumerator ResetDamageBuffer()
-    {
-        yield return new WaitForSeconds(bufferResetTime);
-        damageBufferActive = false;
-        yield break;
-    } 
 
 
     public void Attack()
@@ -114,7 +81,7 @@ public class PlayerCombat : MonoBehaviour
         { 
             // HitTarget(hit.point);
 
-            if(hit.transform.TryGetComponent<EnemyHurt>(out EnemyHurt enemyHurt))
+            if(hit.transform.TryGetComponent<TutorialEnemyHurt>(out TutorialEnemyHurt enemyHurt))
             { 
                 enemyHurt.TakeDamage(attackDamage);
             }
@@ -158,3 +125,4 @@ public class PlayerCombat : MonoBehaviour
     // }
 
 }
+

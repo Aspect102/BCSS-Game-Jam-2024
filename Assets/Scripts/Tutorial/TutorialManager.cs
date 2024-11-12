@@ -81,9 +81,9 @@ public class TutorialManager : MonoBehaviour
         while (killsection)
         {
             TutorialText.text = "Kill the enemy";
-            if (GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyHurt>().currentHealth <= 0)
+            if (GameObject.FindGameObjectWithTag("Enemy").GetComponent<TutorialEnemyHurt>().currentHealth <= 0)
             {
-                var x = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyHurt>();
+                var x = GameObject.FindGameObjectWithTag("Enemy").GetComponent<TutorialEnemyHurt>();
                 x.EnableRagdoll();
                 x.transform.gameObject.GetComponentInChildren<ParticleSystem>().Play();
                 ParticleSystem.EmissionModule emission = x.transform.gameObject.GetComponentInChildren<ParticleSystem>().emission;

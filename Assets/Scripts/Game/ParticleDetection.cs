@@ -2,27 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ParticleDetection : MonoBehaviour
 {
     [SerializeField] new ParticleSystem particleSystem;
     [SerializeField] GameObject player;
+
+    public Scene currentScene;
+    string sceneName;
     
 
     void Awake()
     {
         player = GameObject.FindWithTag("Player");
         particleSystem.trigger.AddCollider(player.GetComponentInChildren<CapsuleCollider>());
+
+        currentScene = SceneManager.GetActiveScene();
+        sceneName = currentScene.name;
     }
 
 
-    void Update()
+    void Start()
     {
         
     }
 
     private void OnParticleTrigger()
     {
-        player.GetComponent<PlayerCombat>().TakeDamage(-2f);
+        if (sceneName == "Game")
+        {
+            player.GetComponent<PlayerCombat>().TakeDamage(-2f);
+        }
     }
 }

@@ -8348,6 +8348,8 @@ MonoBehaviour:
   playerUIManager: {fileID: 1167996223}
   playerHealth: 100
   playerMaxHealth: 100
+  damageBufferActive: 0
+  bufferResetTime: 0.1
   kills: 0
   attackDistance: 16
   attackDelay: 0.1

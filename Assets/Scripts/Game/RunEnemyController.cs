@@ -77,6 +77,7 @@ public class RunEnemyController : MonoBehaviour
     {
         GameObject player = gameObject.GetComponent<OnCreationScript>().player;
         PlayerController playercontroller = player.GetComponent<PlayerController>();
+        
         if (playercontroller.isGrounded)
         {
             PlayerCombat playerCombat = player.GetComponent<PlayerCombat>();
