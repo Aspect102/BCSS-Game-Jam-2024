@@ -122,7 +122,7 @@ public class RoundManager : MonoBehaviour
     {
         while (true)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.M))
             {
                 SceneManager.LoadScene("Main Menu", LoadSceneMode.Single);
                 yield break;

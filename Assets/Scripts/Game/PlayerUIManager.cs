@@ -240,6 +240,8 @@ public class PlayerUIManager : MonoBehaviour
         randomCards[0].SetActive(true);
         randomCards[1].SetActive(true);
 
+
+
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true; 
     }
