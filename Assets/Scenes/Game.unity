@@ -20780,7 +20780,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicObject: {fileID: 682970609}
-  roundLength: 100
+  roundLength: 45
   timerText: {fileID: 544743425}
   displayText: {fileID: 1968778404}
   fadeDelay: 0.5

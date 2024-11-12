@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8459831829969446188}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.12, z: 0}
+  m_LocalPosition: {x: 0, y: 1.984, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -79,9 +79,12 @@ MonoBehaviour:
   player: {fileID: 0}
   damage: 15
   speed: 40
-  groundMask:
+  playerMask:
     serializedVersion: 2
     m_Bits: 128
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
   groundDistance: 4.5
 --- !u!137 &894125361691946021
 SkinnedMeshRenderer:

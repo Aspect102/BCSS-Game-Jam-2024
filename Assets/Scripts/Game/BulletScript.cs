@@ -8,6 +8,7 @@ public class BulletScript : MonoBehaviour
     public int damage;
     public float speed;
 
+    public LayerMask playerMask;
     public LayerMask groundMask;
     public float groundDistance;
 
@@ -26,10 +27,15 @@ public class BulletScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Physics.CheckSphere(transform.position, groundDistance, groundMask))
+        if(Physics.CheckSphere(transform.position, groundDistance, playerMask))
         {
             PlayerCombat playerCombat = player.GetComponent<PlayerCombat>();
             playerCombat.TakeDamage(damage);
+            Destroy(gameObject);
+        }
+
+        if(Physics.CheckSphere(transform.position, 0.5f, groundMask))
+        {
             Destroy(gameObject);
         }
 
