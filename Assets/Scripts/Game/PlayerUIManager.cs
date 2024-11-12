@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,6 +18,7 @@ public class PlayerUIManager : MonoBehaviour
     PlayerController playerController;
     public PlayerCombat playerCombat;
     public UpgradeController upgradeController;
+    public AudioMixer mixer;
 
     int maxDashCharges;
     int dashCharges;
@@ -43,8 +45,8 @@ public class PlayerUIManager : MonoBehaviour
 
     void Awake()
     {
-        // soundSlider.onValueChanged.AddListener();
-        // musicSlider.onValueChanged.AddListener();
+        soundSlider.onValueChanged.AddListener(SetSoundVolume);
+        musicSlider.onValueChanged.AddListener(SetMusicVolume);
         sensSlider.onValueChanged.AddListener(SetSens);
     }
 
@@ -60,7 +62,10 @@ public class PlayerUIManager : MonoBehaviour
         playerController = player.GetComponent<PlayerController>();
         maxDashCharges = playerController.maxDashCharges;
 
-        sensSlider.value = OptionsManager.sensMultiplier; // must be below setting playerController for some reason
+        soundSlider.value = OptionsManager.soundMultiplier; // must be below setting playerController for some reason
+        musicSlider.value =OptionsManager.musicMultiplier;
+        sensSlider.value = OptionsManager.sensMultiplier; 
+
 
         InitialiseUI();
     }
@@ -133,6 +138,7 @@ public class PlayerUIManager : MonoBehaviour
 
     }
 
+
     public void GameOverDisplay(int kills, int round)
     {
         gameOverPanel.SetActive(true);
@@ -142,6 +148,21 @@ public class PlayerUIManager : MonoBehaviour
         roundText.text = $"Round: {round}";
         killedText.text = $"Kills: {kills}";
     }
+
+
+    public void SetSoundVolume(float soundVolume)
+    {
+        OptionsManager.soundMultiplier = soundVolume;
+        mixer.SetFloat("SFXVolume", Mathf.Log10(soundVolume) * 20);
+    }
+
+
+    public void SetMusicVolume(float musicVolume)
+    {
+        OptionsManager.musicMultiplier = musicVolume;
+        mixer.SetFloat("MusicVolume", Mathf.Log10(musicVolume) * 20);
+    }
+
 
     public void SetSens(float sens) // sens set in PlayerController script
     {
@@ -222,7 +243,6 @@ public class PlayerUIManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true; 
     }
-
 
 
     public void CardClicked(GameObject cardObj)

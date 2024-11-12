@@ -18,13 +18,27 @@ public class OptionsManager : MonoBehaviour
 
     void Awake()
     {
-        // soundSlider.onValueChanged.AddListener();
-        // musicSlider.onValueChanged.AddListener();
+        soundSlider.onValueChanged.AddListener(SetSoundVolume);
+        musicSlider.onValueChanged.AddListener(SetMusicVolume);
         sensSlider.onValueChanged.AddListener(SetSens);
 
+        soundSlider.value = soundMultiplier;
+        musicSlider.value = musicMultiplier;
         sensSlider.value = sensMultiplier;
     }
     
+
+    public void SetSoundVolume(float soundVolume)
+    {
+        soundMultiplier = soundVolume;
+    }
+
+
+    public void SetMusicVolume(float musicVolume)
+    {
+        musicMultiplier = musicVolume;
+    }
+
 
     public void SetSens(float sens)
     {

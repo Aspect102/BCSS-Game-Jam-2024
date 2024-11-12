@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class RoundManager : MonoBehaviour
 {
+    // BACKGROUND MUSIC HERE
+    public GameObject musicObject;
+
     public float roundLength;  //seconds
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI displayText;
@@ -42,6 +45,8 @@ public class RoundManager : MonoBehaviour
         displayText.text = currentRound.ToString();
         displayText.enabled = true;
         Invoke(nameof(startRoundDisplayCoroutine), fadeDelay); // show round at full opacity for some time before fading
+
+        musicObject.GetComponent<AudioSource>().enabled = true;
     }
 
 

@@ -59,7 +59,7 @@ public class ParticleDecalPool : MonoBehaviour
 
         // record collision position, rotation, size and colour
         particleData[particleDecalDataIndex].position = particleCollisionEvent.intersection;
-        particleData[particleDecalDataIndex].position.x += Random.Range(0.00f, 0.100f); 
+        // particleData[particleDecalDataIndex].position.x += Random.Range(0.00f, 0.100f); 
         particleData[particleDecalDataIndex].position.y += Random.Range(0.00f, 0.100f); 
         particleData[particleDecalDataIndex].position.z += Random.Range(0.00f, 0.100f); 
 
