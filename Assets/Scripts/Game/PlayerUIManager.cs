@@ -230,10 +230,12 @@ public class PlayerUIManager : MonoBehaviour
         GameObject[] cardArray = GameObject.FindGameObjectsWithTag("Card");
         var random1 = Random.Range(0, cardArray.Length);
         var random2 = Random.Range(0, cardArray.Length);
+
         while (random1 == random2)
         {
             random2 = Random.Range(0, cardArray.Length);
         }
+        
         GameObject[] randomCards = { cardArray[random1], cardArray[random2] };
         randomCards[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(-280, 125);
         randomCards[1].GetComponent<RectTransform>().anchoredPosition = new Vector2(320, 125);

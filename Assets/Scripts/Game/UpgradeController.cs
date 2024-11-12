@@ -14,7 +14,7 @@ public class UpgradeController : MonoBehaviour
     public PlayerController playerController;
 
     public GameObject player;
-    private Card brawlerCard, fastHandsCard, sprinterCard, healerCard, doctorOfDeathCard, tankCard, manipulatorCard, atrainCard, hardModeCard;
+    private Card brawlerCard, fastHandsCard, sprinterCard, healerCard, doctorOfDeathCard, tankCard, manipulatorCard, atrainCard, hardModeCard, garlicCard, lightweightCard, rootedCard;
     public List<Card> playerCards = new List<Card>();
     public List<Card> cards = new List<Card>();
 
@@ -34,7 +34,10 @@ public class UpgradeController : MonoBehaviour
         tankCard = new Card("tank", "orange", 10f, 0.1f, -0.2f, -0.2f, 1f, 0f, 0f, 0f, 0f, 0f, 0f, -0.2f, ("", 0f));
         manipulatorCard = new Card("manipulator", "purple", 10f, 0f, 0f, 0f, -0.05f, -0.1f, 0f, 0f, -0.1f, 0f, 0f, 0f, ("", 0f));
         atrainCard = new Card("atrain", "blue", 10f, -0.05f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, -0.15f, 0.1f, 0.3f, ("", 0f));
-        hardModeCard = new Card("hardmode", "orange", 0f, -0.5f, -0.5f, -0.5f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, ("healthRecurringNegative", -0.01f));
+        hardModeCard = new Card("hardmode", "orange", 0f, -0.5f, -0.2f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, -0.2f, 0f, ("healthRecurringNegative", -0.01f));
+        garlicCard = new Card("garlic", "purple", 10f, 0f, 0.2f, 0f, 0f, 0.2f, 0f, 0f, 0f, 0f, 0f, 0f, ("", 0f));
+        lightweightCard = new Card("lightweight", "blue", 10f, 0f, 0f, 0.1f, -0.2f, 0f, 0f, 0f, 0f, -0.5f, 0f, 0f, ("", 0f));
+        rootedCard = new Card("rooted", "green", 5f, 0f, 0f, 0f, 0.8f, 0f, 0f, 0f, 0f, 0f, -0.2f, -0.8f, ("", 0f));
 
         cards.Add(brawlerCard);
         cards.Add(fastHandsCard);
@@ -45,6 +48,9 @@ public class UpgradeController : MonoBehaviour
         cards.Add(manipulatorCard);
         cards.Add(atrainCard);
         cards.Add(hardModeCard);
+        cards.Add(garlicCard);
+        cards.Add(lightweightCard);
+        cards.Add(rootedCard);
     }
 
     enum lol
