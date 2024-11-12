@@ -1,13 +1,6 @@
-using System.Buffers.Text;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Android;
-using static UnityEditor.PlayerSettings;
-using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
